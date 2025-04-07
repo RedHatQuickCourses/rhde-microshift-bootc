@@ -1,5 +1,5 @@
-name: REPLACEREPONAME
-title: FIXME Course Title
+name: rhde-microshift-bootc
+title: Deploying MicroShift on RHEL Image Mode
 version: 1
 nav:
 - modules/ROOT/nav.adoc

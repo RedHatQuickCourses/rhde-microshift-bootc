@@ -1,6 +1,6 @@
 site:
   title: FIXME Course Title
-  start_page: REPLACEREPONAME::index.adoc
+  start_page: Deploying MicroShift on RHEL Image Mode
 
 content:
   sources:

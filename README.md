@@ -1,10 +1,20 @@
-# About this Training
+# Deploying MicroShift on RHEL Image Mode Quick Course
 
-**Click here: [![Contribute](https://www.eclipse.org/che/contribute.svg)](https://devspaces.apps.tools-na100.dev.ole.redhat.com/#https://github.com/RedHatQuickCourses/rhde-microshift-bootc) to start the development using devspace.**
+This course teaches how to deploy and configure MicroShift on Red Hat Enterprise Linux (RHEL), using package mode or image mode,to support Kubernetes applications.
 
-FIXME: Add short description about your training here.
+Sample applications and configuration files are in the [rhde-build-samples](https://github.com/RedHatQuickCourses/rhde-build-samples/tree/main) repository.
 
-# Objectives
+The course design is loosely based on the [RHEL for Edge variant of this course]https://github.com/RedHatQuickCourses/rhde-microshift/. Both courses share content on package mode a.k.a traditional RHEL and MicroShift concepts.
 
-FIXME: Add here the list of objectives being covered in this training.
+Docs from the RHEL for Edge variant are available to Red Hat employees only, for reference:
+
+* [Initial course design](https://docs.google.com/document/d/1zPUVBdbdlMEUlMmlsnDLiIjOtUMPBXYe3b2TO_Xhl6M/edit?usp=sharing)
+
+Figures on this course are designed using Google Slides, and the deck is available to Red Hat employees. Individual slides are exported to SVG files and cleaned using Inkscape. Those files are in the git repository.
+
+* [Figures](https://docs.google.com/presentation/d/1VBZdZyuWiSyoq1HE6eVxgSEo2_Qc4EOM0_Fkd_uQ_zA/edit?usp=sharing)
+
+Refer to the [Red Hat Quick Courses Contributor Guide](https://redhatquickcourses.github.io/welcome/1/guide/overview.html) for instructions about collaborating in this repository.
+
+The virtual classroom environment is a ROLE classroom, which are shared by all Red Hat Device Edge quick courses and will be updated as required by future related courses: *HOL014: Red Hat Device Edge Quick Course Series*. This virtual classroom is available to Red Hatters and partners, and also customers with a Red Hat Learning Subscription.
 

@@ -1,27 +1,90 @@
-= An Example Quick Course
+= Deploying MicroShift on RHEL Image Mode
 :navtitle: Home
 
-== Introduction
+== Objective
 
-Course Title: Course title FIXME
+This course teaches how to deploy and configure MicroShift on Red Hat Enterprise Linux (RHEL), using either package mode or image mode, to support Kubernetes applications.
 
-Description:
-Course description FIXME
+WARNING: Work In Progress
 
-Duration: FIXME hours
+It is part of a Red Hat Device Learning path, which currently includes three courses in two different tracks:
 
-== Objectives
+* For customers using RHEL for Edge and RPM-OSTree based edge images:
+** https://redhatquickcourses.github.io/rhde-build/[Building Red Hat Device Edge Images^]
+** https://redhatquickcourses.github.io/rhde-microshift/[Deploying MicroShift on Red Hat Device Edge Quick Course]
 
-On completing this course, you should be able to:
+* For customers using RHEL image mode:
+** *Deploying MicroShift on RHEL Image Mode* (this course)
 
-* Observable, measurable objective...
-* Observable, measurable objective...
-* Observable, measurable objective...
+IMPORTANT: Red Hat employees must enroll using its [LMS entry^] to get completion credits, and Red Hat Partners must enroll using its [Partner Portal entry^].
+
+== Audience
+
+Operations-focused customer roles, who design and implement device edge images, but are not usually in-person at edge sites:
+
+* System Administrators (IT - Information Technology, and OT - Operations Technology)
+* Site Reliability Engineers (SREs)
+* Platform Engineers
+* DevOps Engineers
+
+Red Hat and Partner roles that perform demonstrations, PoC and PoV of Red Hat Device Edge as part of a sales motion, such as Solutions Architects
+
+Red Hat and Partner roles that support Red Hat Device Edge on customers, such as Services Consultants and Customer Support Engineers.
 
 == Prerequisites
 
-This course assumes that you have the following prior experience:
+* Attend the RHEL labs https://www.redhat.com/en/introduction-to-image-mode-for-red-hat-enterprise-linux-interactive-lab[Introduction to image mode for Red Hat Enterprise Linux] and https://www.redhat.com/en/day-2-operations-with-image-mode-for-red-hat-enterprise-linux[Day 2 operations with image mode for Red Hat Enterprise Linux], or have equivalent experience with RHEL image mode.
+* Familiarity with RHEL system administration, to the level of https://www.redhat.com/en/services/certification/rhcsa[Red Hat Certified System Administrator (RHCSA)] or equivalent knowledge.
+* Familiarity with OpenShift administration, to the level of https://www.redhat.com/en/services/certification/rhcs-paas[Red Hat Certified OpenShift Administrator] or equivalent knowledge.
+* Familiarity with Ansible playbooks and the Ansible Automation Platform is useful but not required.
+* Familiarity with web server administration, such as Apache Web Server or NGinx, is useful but not required.
+* Familiarity with database server administration, such as MySQL or MariaDB, is useful but not required.
 
-* Course or experience...
-* Course or experience...
-* Course or experience...
+== Classroom Environment
+
+You can perform all activities in this course using the virtual classroom lab from *HOL014: Red Hat Device Edge Quick Course Series*, which is shared by all Red Hat Device Edge quick courses and will be updated as required by future related courses.
+
+WARNING: The current released version of HOL014 does NOT contain container images required by image mode. You have to manually copy the required images to the mirror registry, if you want to try the WIP course activities. HOL014 will be updated as part of releasing this quick course for general availability.
+
+Use the following links to access the virtual classroom lab on Red Hat Online Learning (ROLE):
+
+* https://role.rhu.redhat.com/rol-rhu/app/courses/hol014-9.5/pages/pr01[HOL014 for Red Hat employees^].
+* https://rol.redhat.com/rol/app/courses/hol014-9.5/pages/pr01[HOL014 for Red Hat partners and customers^] with a *Red Hat Learning Subscription*.
+
+After you enter HOL014 on ROLE, follow the instructions there to create a new course classroom lab and access its virtual machines. If you already created a HOL014 classroom for another Red Hat Device Edge quick course, you can continue using the same classroom lab.
+
+Beware that ROLE classrooms have timers after which classroom labs are stopped and deleted, to conserve compute resources. If you plan to use the same classroom lab for multiple Red Hat Device Edge quick courses, do not wait too long to continue. You do not need to use the same classroom for multiple courses: each course provides step-by-step instructions to start from either a new classroom lab or to continue from an existing classroom lab.
+
+You will follow this quick course by alternating between two browser windows: one to navigate quick course materials, such as this page; and another to access the virtual classroom lab, to perform hands-on activities.
+
+If you can provision your own RHEL servers or VMs, it should be possible to configure all that is required for the hands-on activities by using a https://developers.redhat.com/products/rhel/download[free subscription] from the https://developers.redhat.com/about[Red Hat Developer Program], which gives access to RHEL installation media, RHEL package repositories, OpenShift package repositories, and OpenShift container images in Red Hat registries.
+
+== About Red Hat Online Learning (ROLE) and Red Hat Learning Subscription
+
+The Red Hat Online Learning (ROLE) web site provides https://www.redhat.com/en/services/training-and-certification[Red Hat Training and Certification] course materials and their virtual classrooms labs. You must be enrolled in a Red Hat Training course or subscription to have access to ROLE.
+
+NOTE: The Red Hat Device Edge Quick Courses Series use ROLE for its virtual classroom labs only, and hosts courses materials outside of ROLE, as GitHub pages.
+
+A basic https://www.redhat.com/en/services/training/learning-subscription[Red Hat Learning Subscription] offers access to a number Red Hat Training courses and virtual classroom lab time. Higher subscription tiers offer additional benefits such as Red Hat Certification Exam vouchers.
+
+== Other Sources of Information About MicroShift
+
+The main source is the https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.17[product documentation for MicroShift] in Red Hat's documentation portal.
+
+We also recommend that you use the product documentation for https://docs.redhat.com/en/documentation/openshift_container_platform/4.17[Red Hat OpenShift Container Platform] for general Kubernetes topics, OpenShift extension APIs, and add-on operators which may be supported in MicroShift.
+
+The Red Hat Build of MicroShift is supported as part of Red Hat Device Edge, check its https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/index[overview document] for pointers to MicroShift, RHEL for Edge, and other components of Red Hat Device Edge.
+
+For documentation about RHEL image mode, see the https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html-single/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/index[RHEL product documentation].
+
+It is not expected that you need to use the https://microshift.io/[open source upstream] of MicroShift and its community documentation for day to day use of the Red Hat Build of MicroShift.
+
+== Author
+
+*Fernando Lozano* +
+Training Content Architect +
+Red Hat - Product Portfolio Marketing & Learning
+
+//Special thanks to Gregory Giguashvili and Vladislav Walek for all their support while writing this course and testing its hands-on activities.
+
+//Many thanks to Daniel Froehlich for his support in reviewing the course design, its outline, work-in-progress contents, and answering my newbie questions, and also to Eric Lavarde for reviews and feedback during course development.

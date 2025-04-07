@@ -6,7 +6,7 @@ Sample applications and configuration files are in the [rhde-build-samples](http
 
 The course design is loosely based on the [RHEL for Edge variant of this course]https://github.com/RedHatQuickCourses/rhde-microshift/. Both courses share content on package mode a.k.a traditional RHEL and MicroShift concepts.
 
-Docs from the RHEL for Edge variant are available to Red Hat employees only, for reference:
+Design docs from the RHEL for Edge variant are available to Red Hat employees only, for reference:
 
 * [Initial course design](https://docs.google.com/document/d/1zPUVBdbdlMEUlMmlsnDLiIjOtUMPBXYe3b2TO_Xhl6M/edit?usp=sharing)
 

@@ -1,6 +1,6 @@
 site:
-  title: FIXME Course Title
-  start_page: Deploying MicroShift on RHEL Image Mode
+  title: Deploying MicroShift on RHEL Image Mode
+  start_page: rhde-microshift-bootc::index.adoc
 
 content:
   sources:

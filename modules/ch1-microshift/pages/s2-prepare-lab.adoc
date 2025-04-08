@@ -1,0 +1,51 @@
+:time_estimate: 9
+
+= Lab: Prepare a Test Environment for Image Mode and MicroShift
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+
+Prepare a test environment for building bootc containers including MicroShift.
+
+WARNING: Pending Review
+
+== Before you Begin
+
+// Minimally changed from rhde-microshift to remove references to ostree
+
+You need a few machines to perform the hands-on activities in this course. 
+
+* A _development machine_ with RHEL and unrestricted `sudo`, where you will create test VMs using Libvirt, and also run the OpenShift client to access your MicroShift instances in other machines.
+
+* A _test machine_ with RHEL and unrestricted `sudo`, where you will install MicroShift on RHEL package mode.
+
+* A _package server machine_ already configured to serve DNF repositories for RHEL, Fast Datapath for RHEL, and Red Hat OpenShift Container Platform.
+
+* A _web server machine_ with RHEL and unrestricted `sudo`, to share files such as public keys.
+
+* A _mirror registry machine_ with RHEL and unrestricted `sudo`, to host a https://www.redhat.com/en/blog/introducing-mirror-registry-for-red-hat-openshift[mirror registry for Red Hat OpenShift].
+
+These instructions were tested on RHEL 9.5 but should work with minimal or no change on newer and older RHEL 9.x releases.
+
+If you are using the course environment, you will log in to the `workstation` VM as the user `student` with password `student`. The `workstation` VM is your _development machine_. You will start SSH sessions from the `workstation` VM to the `servera` VM, which is your _web server machine_ and also your _mirror registry machine_, using the same user.
+
+IMPORTANT: Be sure you execute each step on the correct machine. If a step is not explicit about the machine it should be performed, it is using the same machine as its previous step.
+
+In the course environment, the `classroom` VM, with the `materials` alias, is your _package server machine_ but you are _not_ expected to start SSH sessions nor perform any activity on it.
+
+NOTE: It should be possible to perform all activities in this course using a https://developers.redhat.com/products/rhel/download[free Red Hat Developers free subscription], which gives you access to installation media, RPM packages, and container images for RHEL and Red Hat OpenShift. If you ignore the requirements for air-gaped installation of MicroShift, you could use a single RHEL VM and adapt the steps to your own environment.
+
+== Instructions
+
+include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-registry.adoc[]
+
+3. Configure your _web server machine_ to run an Apache Web Server.
+
+include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-dnf.adoc[]
+
+You now have your _development machine_ ready to build bootc containers, and your _web server machine_ ready to store and distribute files for your edge devices. 
+
+== What's Next
+
+The next lab configures the requirements for air-gapped deployments of MicroShift.

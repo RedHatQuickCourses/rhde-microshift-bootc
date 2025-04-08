@@ -1,0 +1,1 @@
+include::rhde-microshift:ch1-microshift:s1-microshift-vs-ocp.adoc[]

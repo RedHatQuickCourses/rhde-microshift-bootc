@@ -1,9 +1,12 @@
 name: rhde-microshift-bootc
 title: Deploying MicroShift on RHEL Image Mode
 version: 1
+asciidoc:
+  attributes:
+    experimental: true
 nav:
 - modules/ROOT/nav.adoc
-- modules/chapter1/nav.adoc
+- modules/ch1-microshift/nav.adoc
 - modules/chapter2/nav.adoc
 - modules/chapter3/nav.adoc
 - modules/appendix/nav.adoc

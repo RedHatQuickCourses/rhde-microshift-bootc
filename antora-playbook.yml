@@ -5,6 +5,8 @@ site:
 content:
   sources:
   - url: ./
+  - url: https://github.com/RedHatQuickCourses/rhde-build-samples.git
+  - url: https://github.com/RedHatQuickCourses/rhde-microshift.git
 
 asciidoc:
   attributes:

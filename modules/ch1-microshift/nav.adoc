@@ -1,0 +1,7 @@
+* xref:index.adoc[]
+# Didn't work as expected, it switches to the other course
+#** xref:rhde-microshift:ch1-microshift:s1-microshift-vs-ocp.adoc[]
+** xref:s1-microshift-vs-ocp.adoc[]
+** xref:s2-prepare-lab.adoc[]
+** xref:s3-air-gapped-lab.adoc[]
+** xref:s4-summary.adoc[]

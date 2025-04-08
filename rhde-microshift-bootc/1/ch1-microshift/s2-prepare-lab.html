@@ -57,7 +57,7 @@
     <a class="nav-link" href="s2-prepare-lab.html">Lab: Prepare a Test Environment for Image Mode and MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="s3-air-gapped-lab.html">Lab: Prepare a Test Environment for MicroShift</a>
+    <a class="nav-link" href="s3-air-gapped-lab.html">Lab: Prepare a Disconnected Environment for MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="s4-summary.html">Summary</a>
@@ -160,7 +160,7 @@
 <dl>
 <dt class="hdlist1">Objective</dt>
 <dd>
-<p>Prepare a test environment for building bootc containers including MicroShift.</p>
+<p>Prepare an environment for testing bootc containers and RHEL machines including MicroShift.</p>
 </dd>
 </dl>
 </div>
@@ -244,188 +244,121 @@ It should be possible to perform all activities in this course using a <a href="
 <div class="olist arabic">
 <ol class="arabic">
 <li>
-<p>Configure your <em>web server machine</em> with a mirror registry for Red Hat OpenShift.</p>
+<p>Configure your <em>development machine</em> with the Libvirt tools. It should be ready if you already performed the activities from the first course in the same course environment.</p>
 <div class="paragraph">
-<p>These steps are required for all kinds of MicroShift deployment, be they on package-based or image-based, if you are performing air-gaped deployments.</p>
+<p>If something goes wrong while performing these steps and you need troubleshooting aid, please refer to the activities from the <a href="https://redhatquickcourses.github.io/rhde-build/rhde-build/1/ch3-test/s2-boot-lab.html">first course</a> which focus on deploying Libvirt and using KVM virtualization.</p>
 </div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>The mirror registry for OpenShift runs as a local container, so install Podman.</p>
+<p>Install the Libvirt tools and enable the Libvirt socket.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo dnf install container-tools</strong>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo dnf install qemu-kvm libvirt virt-install virt-viewer</strong>
+...
+Complete!
+$ <strong>sudo systemctl enable virtqemud.socket --now</strong>
+Created symlink /etc/systemd/system/multi-user.target.wants/virtqemud.socket → /usr/lib/systemd/system/virtqemud.socket.</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Optionally, install the virtual machines module for Cockpit</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo dnf install cockpit-machines</strong>
 ...
 Complete!</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Allow remote access to the mirror registry on the system firewall.</p>
+<p>Check that it can use Libvirt&#8217;s session interface.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo firewall-cmd --add-port=8443/tcp --permanent</strong>
-success
-$ <strong>sudo firewall-cmd --reload</strong>
-success</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Download the installer for mirror registry for Red Hat OpenShift installer.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In a connected environment, you would get it from the <a href="https://console.redhat.com/openshift/downloads#tool-mirror-registry">downloads</a> page of the Red Hat Hybrid Cloud Console, but there is already a copy of the installer in the course environment at http://content.example.com/rhde/rhocp/.
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q http://content.example.com/rhde/rhocp/mirror-registry-amd64.tar.gz</strong></code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Extract the mirror registry installer in a temporary directory. You may want to keep the directory for later, if you need to uninstall the mirror registry.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>mkdir mirror-registry</strong>
-$ <strong>tar xzvf mirror-registry-amd64.tar.gz -C mirror-registry</strong>
-image-archive.tar
-execution-environment.tar
-mirror-registry
-sqlite3.tar</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Run the mirror registry installer.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo ./mirror-registry/mirror-registry install -v --quayHostname servera.lab.example.com  --quayRoot /var/quay --initUser microshift --initPassword redhat123</strong>
-...
-INFO[2024-12-19 15:29:40] Quay installed successfully, config data is stored in /var/quay
-INFO[2024-12-19 15:29:40] Quay is available at https://servera.lab.example.com:8443 with credentials (microshift, redhat123)</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>If something goes wrong and you must retry the mirror registry installation, first clean the failed installation using the following command:</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo ./mirror-registry/mirror-registry uninstall -v --quayRoot /var/quay --autoApprove</strong>
-...
-INFO[2024-12-19 15:25:41] Quay uninstalled successfully</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>If all is well, you should have three new containers, and two new system services.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo podman ps</strong>
-CONTAINER ID  IMAGE                                         COMMAND     CREATED      STATUS      PORTS                   NAMES
-c4fee96c05e0  registry.access.redhat.com/ubi8/pause:8.10-5  infinity    5 hours ago  Up 5 hours  0.0.0.0:8443-&gt;8443/tcp  3e6c474403ac-infra
-48a7e7a330dc  registry.redhat.io/quay/quay-rhel8:v3.12.2    registry    5 hours ago  Up 5 hours  0.0.0.0:8443-&gt;8443/tcp  quay-app
-82b8559fcc97  registry.redhat.io/rhel8/redis-6:1-190        run-redis   5 hours ago  Up 5 hours  0.0.0.0:8443-&gt;8443/tcp  quay-redis
-$ <strong>systemctl status quay-app</strong>
-● quay-app.service - Quay Container
-     Loaded: loaded (/etc/systemd/system/quay-app.service; enabled; preset: disabled)
-     Active: active (running) since Fri 2024-12-20 09:04:13 EST; 5h 19min ago
-...
-$ <strong>systemctl status quay-redis</strong>
-● quay-redis.service - Redis Podman Container for Quay
-     Loaded: loaded (/etc/systemd/system/quay-redis.service; enabled; preset: disabled)
-     Active: active (running) since Fri 2024-12-20 09:04:13 EST; 5h 19min ago
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>virsh uri</strong>
+qemu:///session
+$ <strong>virsh nodeinfo</strong>
+CPU model:           x86_64
 ...</code></pre>
 </div>
 </div>
 </li>
-<li>
-<p>Publish the CA certificate of the mirror registry on the Apache Web Server, so other machines can download it and connect to the mirror registry without disabling TLS validation.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo cp /var/quay/quay-rootCA/rootCA.pem /var/www/html/quay-rootCA.pem</strong></code></pre>
-</div>
-</div>
-</li>
 </ol>
 </div>
 </li>
 <li>
-<p>Configure your <em>development machine</em> to access your mirror registry.</p>
-<div class="paragraph">
-<p>We will install MicroShift with common assumptions of air-gaped environments, where MicroShift should only pull container images that were previously vetted and only from private container registries, which in the course environment is the mirror registry.</p>
+<p>Configure unprivileged user access to Libvirt&#8217;s default network. This enables inbound network connections to session VMs.</p>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+This was <em>not</em> configured in the first course about Red Hat Device Edge, and it will be necessary to test edge images and bootc images with MicroShift.
+</td>
+</tr>
+</table>
 </div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Add the CA certificate of the mirror registry to your system trusted certificates.</p>
+<p>Check that IP forwarding is enabled, which is the default for RHEL installations.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q http://servera.lab.example.com/quay-rootCA.pem</strong>
-$ <strong>sudo cp quay-rootCA.pem /etc/pki/ca-trust/source/anchors</strong>
-$ <strong>sudo update-ca-trust</strong></code></pre>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sysctl net.ipv4.ip_forward</strong>
+net.ipv4.ip_forward = 1</code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Log in to the mirror registry.</p>
+<p>Install Libvirt&#8217;s NSS module.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>podman login -u microshift -p redhat123 https://servera.lab.example.com:8443</strong>
-Login Succeeded!</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Copy your registry authentication credentials to a pull secret file.</p>
-<div class="paragraph">
-<p>This file replaces the pull secret of your Red Hat account, that you would use to install OpenShift and MicroShift when connected to the internet.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>cp $XDG_RUNTIME_DIR/containers/auth.json mirror-pull-secret</strong></code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-You will later copy this file to your MicroShift instances, so it is important that it contains only credentials to the mirror registry, and nothing else. If you configured your mirror registry with exactly the same user name and password from the previous step, you can download a <a href="https://github.com/RedHatQuickCourses/rhde-build-samples/blob/main/microshift/mirror-pull-secret">sample pull secret file</a> from the course samples repository and just edit the host name of your mirror registry.
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>Download a file system copy of all images from the classroom server.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-When outside of the course environment, follow the instructions from product docs to extract a list of MicroShift release images from the <code>microshift-release-info</code> RPM package and download them to a staging directory. In the course environment, we provide you with a backup of the staging directory to avoid the need for internet access and save on cloud bandwidth fees.
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget --mirror -np http://content.example.com/rhde/oci/</strong>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo dnf install libvirt-nss</strong>
 ...
-Downloaded: 409 files, 2.9G in 1m 43s (28.9 MB/s)</code></pre>
+Complete!</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Create the <code>/etc/qemu/bridge.conf</code> configuration file and make it world-readable.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo mkdir /etc/qemu</strong>
+$ <strong>sudo bash -c 'echo "allow virbr0" &gt; /etc/qemu/bridge.conf'</strong>
+$ <strong>sudo chmod a+r /etc/qemu/bridge.conf</strong></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Enable and start the Libvirt network daemon.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo systemctl enable virtnetworkd --now</strong>
+Created symlink /etc/systemd/system/multi-user.target.wants/virtnetworkd.service → /usr/lib/systemd/system/virtnetworkd.service.</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Check that Libvirt initialized its default network and the <code>virb0</code> bridge device.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo virsh net-list</strong>
+ Name      State    Autostart   Persistent
+--------------------------------------------
+default   active   yes         yes
+$ <strong>ip -br addr show virbr0</strong>
+virbr0           DOWN           192.168.122.1/24</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Edit your the <code>/etc/nsswtich.conf</code> configuration file by adding the Libvirt NSS modules right before the <code>myhostname</code> module. This enables resolving hostnames of session VMs to their IP addresses.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">hosts:      files dns <strong>libvirt libvirt_guest</strong> myhostname</code></pre>
 </div>
 </div>
 <div class="admonitionblock note">
@@ -435,132 +368,7 @@ Downloaded: 409 files, 2.9G in 1m 43s (28.9 MB/s)</code></pre>
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The previous command produces a bunch of <code>index.html*</code> files that you can safely ignore. We should have put a TAR backup in the course environment, instead of a directory tree.
-</td>
-</tr>
-</table>
-</div>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Populate the mirror registry with container images required by MicroShift.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Download the <a href="https://github.com/RedHatQuickCourses/rhde-build-samples/blob/main/sh/upload-microshift.sh">MicroShift images upload script</a>. It is based on the script provided by <a href="https://docs.redhat.com/en/documentation/red_hat_build_of_microshift/4.17/html/embedding_in_a_rhel_for_edge_image/index">product documentation</a>, with minor edits.</p>
-<div class="paragraph">
-<p>Please use the copy of the script in the course samples repository as product documentation may change after this course was released.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/sh/upload-microshift.sh</strong></code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Run the MicroShift images upload script. Check carefully that its output does not indicate any errors.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sh upload-microshift.sh</strong></code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-OpenShift release images, which are reused by MicroShift, are not identified by a tag. You must refer to them by hash, so they look like different builds of the same <code>openshift-release-dev/ocp-v4.0-art-dev</code> image but they are actually completely different images.
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>You can check that the upload process worked by listing all images in the mirror registry.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>podman search servera.lab.example.com:8443/</strong>
-NAME                                                                 DESCRIPTION
-servera.lab.example.com:8443/lvms4/lvms-rhel9-operator
-servera.lab.example.com:8443/openshift-release-dev/ocp-v4.0-art-dev</code></pre>
-</div>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-The OCI distribution API is very unreliable for searching and listing container images in a container registry. It works here because there are very few images, but may not work in a production private registry with a larger number of images, including a complete set of images for Red Hat OpenShift.
-</td>
-</tr>
-</table>
-</div>
-</li>
-</ol>
-</div>
-</li>
-<li>
-<p>Populate the mirror registry with container images required by sample applications for course activities.</p>
-<div class="olist loweralpha">
-<ol class="loweralpha" type="a">
-<li>
-<p>Download the <a href="https://github.com/RedHatQuickCourses/rhde-build-samples/blob/main/sh/upload-apps.sh">application images upload script</a>. It is very similar to the MicroShift images upload script.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/sh/upload-apps.sh</strong></code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Run the application images upload script. Check carefully that its output does not indicate any errors.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sh upload-apps.sh</strong></code></pre>
-</div>
-</div>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In production environments, it is not recommended that you mirror images based on floating tags, such as the implicit <code>latest</code> image tag, like we did here. It is recommended that you mirror using non-floating tags or image hashes.
-</td>
-</tr>
-</table>
-</div>
-</li>
-<li>
-<p>You can check that the upload process worked by listing all images in the mirror registry.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>podman search servera.lab.example.com:8443/</strong>
-NAME                                                                 DESCRIPTION
-servera.lab.example.com:8443/lvms4/lvms-rhel9-operator
-servera.lab.example.com:8443/openshift-release-dev/ocp-v4.0-art-dev
-servera.lab.example.com:8443/rhel9/mysql-80
-servera.lab.example.com:8443/flozanorht/php-ubi
-servera.lab.example.com:8443/ubi9/ubi</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>Alternatively, you can open the web GUI of Red Hat Quay at <code><a href="https://servera.lab.example.com:8443/" class="bare">https://servera.lab.example.com:8443/</a></code> and browse the images available in your mirror registry.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The mirror registry for Red Hat OpenShift only supports a subset of the features of Red Hat Quay and it is not configured for reliability and high availability.
+in production systems, it is recommended that you use the <code>authselect</code> utility instead of making edits to the <code>/etc/nsswtich.conf</code> file.
 </td>
 </tr>
 </table>
@@ -571,28 +379,37 @@ The mirror registry for Red Hat OpenShift only supports a subset of the features
 </li>
 <li>
 <p>Configure your <em>web server machine</em> to run an Apache Web Server.</p>
-</li>
-<li>
-<p>Check that your <em>package server machine</em> is already set up with all artifacts required for air-gaped installation of MicroShift. These steps are required for all kinds of MicroShift deployments, be they on package-based or image-based, if you are performing air-gaped deployments.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-In production environments, it is recommended that you deploy Red Hat Satellite to mirror RPM package repositories from Red Hat products, but the course environment uses an Apache Web Server.
-</td>
-</tr>
-</table>
-</div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Open <code><a href="http://content.example.com/rhel9.5/x86_64/dvd/" class="bare">http://content.example.com/rhel9.5/x86_64/dvd/</a></code> in a web browser. This directory is a copy of a RHEL offline installation DVD and contains the <code>baseos</code> and <code>appstreams</code> repositories.</p>
+<p>Install the Apache Web Server packages from RHEL.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo dnf install httpd</strong>
+...
+Complete!</code></pre>
+</div>
+</div>
 </li>
 <li>
-<p>Open <code><a href="http://content.example.com/rhde/rpms/" class="bare">http://content.example.com/rhde/rpms/</a></code> in a web browser. This directory contains a copy of the Red Hat OpenShift and Fast Datapath for RHEL repositories, created using the <code>reposync</code> command.</p>
+<p>Enable and start the Apache Web Server system service.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo systemctl enable httpd --now</strong>
+Created symlink /etc/systemd/system/multi-user.target.wants/httpd.service → /usr/lib/systemd/system/httpd.service.</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Allow remote access to the Apache Web Server on the system&#8217;s firewall.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo firewall-cmd --add-service=http --permanent</strong>
+success
+$ <strong>sudo firewall-cmd --reload</strong>
+success</code></pre>
+</div>
+</div>
 </li>
 </ol>
 </div>
@@ -600,7 +417,7 @@ In production environments, it is recommended that you deploy Red Hat Satellite 
 </ol>
 </div>
 <div class="paragraph">
-<p>You now have your <em>development machine</em> ready to build bootc containers, and your <em>web server machine</em> ready to store and distribute files for your edge devices.</p>
+<p>You now have your <em>development machine</em> ready to test bootc containers using Libvirt VMs, and your <em>web server machine</em> ready to store and distribute files for your edge devices.</p>
 </div>
 </div>
 </div>
@@ -614,7 +431,7 @@ In production environments, it is recommended that you deploy Red Hat Satellite 
 </div>
 <nav class="pagination">
   <span class="prev"><a href="s1-microshift-vs-ocp.html">Introduction to MicroShift and Red Hat Device Edge</a></span>
-  <span class="next"><a href="s3-air-gapped-lab.html">Lab: Prepare a Test Environment for MicroShift</a></span>
+  <span class="next"><a href="s3-air-gapped-lab.html">Lab: Prepare a Disconnected Environment for MicroShift</a></span>
 </nav>
 </article>
   </div>

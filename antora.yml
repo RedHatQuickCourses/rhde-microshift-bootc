@@ -8,5 +8,4 @@ nav:
 - modules/ROOT/nav.adoc
 - modules/ch1-microshift/nav.adoc
 - modules/ch2-package/nav.adoc
-- modules/chapter3/nav.adoc
-- modules/appendix/nav.adoc
+- modules/ch3-bootc/nav.adoc

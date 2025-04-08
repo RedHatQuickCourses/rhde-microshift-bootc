@@ -1,12 +1,12 @@
 :time_estimate: 9
 
-= Lab: Prepare a Test Environment for MicroShift
+= Lab: Prepare a Disconnected Environment for MicroShift
 
 _Estimated reading time: *{time_estimate} minutes*._
 
 Objective::
 
-Prepare a test environment for air-gaped deployment of MicroShift in both package and image modes of RHEL.
+Populate a test environment with RPM packages and container images for air-gaped deployment of MicroShift.
 
 WARNING: Work In Progress.
 
@@ -42,9 +42,11 @@ include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-registry.adoc[
 
 .. TBD
 
+.. Also TBD
+
 include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-dnf.adoc[]
 
-You now have your _mirror registry machine_ and your _package server machine_ ready to support the air-gaped deployment of MicroShift in both package and image modes of RHEL.
+You now have your _mirror registry machine_ and your _package server machine_ ready to support the air-gapped deployment of MicroShift in both package and image modes of RHEL.
 
 == What's Next
 

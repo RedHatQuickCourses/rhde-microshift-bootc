@@ -6,7 +6,7 @@ _Estimated reading time: *{time_estimate} minutes*._
 
 Objective::
 
-Prepare a test environment for building bootc containers including MicroShift.
+Prepare an environment for testing bootc containers and RHEL machines including MicroShift.
 
 WARNING: Pending Review
 
@@ -38,13 +38,13 @@ NOTE: It should be possible to perform all activities in this course using a htt
 
 == Instructions
 
-include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-registry.adoc[]
+include::rhde-microshift:ch1-microshift:partial$s2-prepare-lab-libvirt.adoc[]
 
 3. Configure your _web server machine_ to run an Apache Web Server.
 
-include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-dnf.adoc[]
+include::rhde-microshift:ch1-microshift:partial$s2-prepare-lab-apache.adoc[]
 
-You now have your _development machine_ ready to build bootc containers, and your _web server machine_ ready to store and distribute files for your edge devices. 
+You now have your _development machine_ ready to test bootc containers using Libvirt VMs, and your _web server machine_ ready to store and distribute files for your edge devices. 
 
 == What's Next
 

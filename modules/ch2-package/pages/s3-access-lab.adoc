@@ -1,0 +1,1 @@
+include::rhde-microshift:ch2-package:s3-access-lab.adoc[]

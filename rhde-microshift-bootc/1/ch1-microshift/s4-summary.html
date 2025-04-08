@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Section 1 :: Deploying MicroShift on RHEL Image Mode</title>
-    <link rel="prev" href="index.html">
-    <link rel="next" href="section2.html">
+    <title>Summary :: Deploying MicroShift on RHEL Image Mode</title>
+    <link rel="prev" href="s3-air-gapped-lab.html">
+    <link rel="next" href="../chapter2/index.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -48,19 +48,19 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="../ch1-microshift/index.html">Introduction to Red Hat Build of MicroShift</a>
+    <a class="nav-link" href="index.html">Introduction to Red Hat Build of MicroShift</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch1-microshift/s1-microshift-vs-ocp.html">Introduction to MicroShift and Red Hat Device Edge</a>
+    <a class="nav-link" href="s1-microshift-vs-ocp.html">Introduction to MicroShift and Red Hat Device Edge</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch1-microshift/s2-prepare-lab.html">Lab: Prepare a Test Environment for Image Mode and MicroShift</a>
+    <a class="nav-link" href="s2-prepare-lab.html">Lab: Prepare a Test Environment for Image Mode and MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch1-microshift/s3-air-gapped-lab.html">Lab: Prepare a Test Environment for MicroShift</a>
+    <a class="nav-link" href="s3-air-gapped-lab.html">Lab: Prepare a Test Environment for MicroShift</a>
   </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch1-microshift/s4-summary.html">Summary</a>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="s4-summary.html">Summary</a>
   </li>
 </ul>
   </li>
@@ -83,13 +83,13 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Chapter 3</a>
+    <a class="nav-link" href="../chapter3/index.html">Chapter 3</a>
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="section1.html">Section 1</a>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="../chapter3/section1.html">Section 1</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="section2.html">Section 2</a>
+    <a class="nav-link" href="../chapter3/section2.html">Section 2</a>
   </li>
 </ul>
   </li>
@@ -140,8 +140,8 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Deploying MicroShift on RHEL Image Mode</a></li>
-    <li><a href="index.html">Chapter 3</a></li>
-    <li><a href="section1.html">Section 1</a></li>
+    <li><a href="index.html">Introduction to Red Hat Build of MicroShift</a></li>
+    <li><a href="s4-summary.html">Summary</a></li>
   </ul>
 </nav>
 </div>
@@ -150,26 +150,35 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Section 1</h1>
+<h1 class="page">Summary</h1>
+<div class="paragraph">
+<p>In this chapter, you learned:</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
-<p>Create multiple copies of this section as needed.</p>
+<p>MicroShift rebuilds selected components of the OpenShift control plane as a single process, managed by Systemd.</p>
 </li>
 <li>
-<p>Remove any unnecessary sections or chapter pages.</p>
+<p>MicroShift runs selected components of OpenShift, such as its Ingress controller and LVM Storage operator, using the same container images as Red Hat OpenShift.</p>
 </li>
 <li>
-<p>Customize the section as appropriate.</p>
+<p>You can install optional components of MicroShift from RPM packages, including the Operator Lifecycle Manager (OLM), which then enables you to install add-on operators that are tested and supported on MicroShift.</p>
 </li>
 <li>
-<p>Ensure that each page contains a manageable amount of content.</p>
+<p>Unlike Red Hat OpenShift, where you perform almost all day-to-day management of clusters and applications using Kubernetes APIs, deploying and managing MicroShift instances requires using common RHEL tools and processes.</p>
+</li>
+<li>
+<p>If your edge deployment requires High Availability (HA), horizontal scalability to multi-node Kubernetes, or vertical scalability to server-class machines, consider the many editions and deployment factors of Red Hat OpenShift.</p>
+</li>
+<li>
+<p>MicroShift should run most applications developed and tested on Red Hat OpenShift unchanged, from the same container images, manifests, helm charts, and add-on operators.</p>
 </li>
 </ul>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="index.html">Chapter 3</a></span>
-  <span class="next"><a href="section2.html">Section 2</a></span>
+  <span class="prev"><a href="s3-air-gapped-lab.html">Lab: Prepare a Test Environment for MicroShift</a></span>
+  <span class="next"><a href="../chapter2/index.html">Chapter 2</a></span>
 </nav>
 </article>
   </div>

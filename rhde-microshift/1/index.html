@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Deploying MicroShift on RHEL Image Mode :: Deploying MicroShift on RHEL Image Mode</title>
+    <title>Deploying MicroShift on Red Hat Device Edge :: Deploying MicroShift on RHEL Image Mode</title>
     <link rel="next" href="ch1-microshift/index.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../_/css/site.css">
@@ -29,12 +29,12 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="rhde-microshift-bootc" data-version="1">
+<div class="nav-container" data-component="rhde-microshift" data-version="1">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="index.html">Deploying MicroShift on RHEL Image Mode</a></h3>
+    <h3 class="title"><a href="index.html">Deploying MicroShift on Red Hat Device Edge</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -53,7 +53,7 @@
     <a class="nav-link" href="ch1-microshift/s1-microshift-vs-ocp.html">Introduction to MicroShift and Red Hat Device Edge</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="ch1-microshift/s2-prepare-lab.html">Lab: Prepare a Test Environment for Image Mode and MicroShift</a>
+    <a class="nav-link" href="ch1-microshift/s2-prepare-lab.html">Lab: Prepare a Test Environment for Red Hat Device Edge</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="ch1-microshift/s3-air-gapped-lab.html">Lab: Prepare a Test Environment for MicroShift</a>
@@ -69,10 +69,22 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="chapter2/index.html">Chapter 2</a>
+    <a class="nav-link" href="ch2-package/index.html">Deploy MicroShift on RHEL Servers</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="chapter2/section1.html">Section 1</a>
+    <a class="nav-link" href="ch2-package/s1-install-config.html">Install and Configure MicroShift on Package-Based RHEL</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="ch2-package/s2-install-lab.html">Lab: Install MicroShift from RPM Packages</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="ch2-package/s3-access-lab.html">Lab: Access MicroShift as a Developer or Platform Engineer</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="ch2-package/s4-apps-lab.html">Lab: Deploy Kubernetes Applications in MicroShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="ch2-package/s5-summary.html">Summary</a>
   </li>
 </ul>
   </li>
@@ -82,13 +94,16 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="chapter3/index.html">Chapter 3</a>
+    <a class="nav-link" href="ch3-image/index.html">Deploy MicroShift on Edge Devices</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="chapter3/section1.html">Section 1</a>
+    <a class="nav-link" href="ch3-image/s1-microshift-edge.html">RHEL for Edge images With MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="chapter3/section2.html">Section 2</a>
+    <a class="nav-link" href="ch3-image/s2-image-lab.html">Lab: Create RHEL for Edge Images with MicroShift</a>
+  </li>
+  <li class="nav-item" data-depth="2">
+    <a class="nav-link" href="ch3-image/s4-summary.html">Summary</a>
   </li>
 </ul>
   </li>
@@ -99,23 +114,23 @@
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
-    <span class="title">Deploying MicroShift on RHEL Image Mode</span>
+    <span class="title">Deploying MicroShift on Red Hat Device Edge</span>
     <span class="version">1</span>
   </div>
   <ul class="components">
-    <li class="component">
-      <a class="title" href="../../rhde-microshift/1/index.html">Deploying MicroShift on Red Hat Device Edge</a>
-      <ul class="versions">
-        <li class="version is-latest">
-          <a href="../../rhde-microshift/1/index.html">1</a>
-        </li>
-      </ul>
-    </li>
     <li class="component is-current">
-      <a class="title" href="index.html">Deploying MicroShift on RHEL Image Mode</a>
+      <a class="title" href="index.html">Deploying MicroShift on Red Hat Device Edge</a>
       <ul class="versions">
         <li class="version is-current is-latest">
           <a href="index.html">1</a>
+        </li>
+      </ul>
+    </li>
+    <li class="component">
+      <a class="title" href="../../rhde-microshift-bootc/1/index.html">Deploying MicroShift on RHEL Image Mode</a>
+      <ul class="versions">
+        <li class="version is-latest">
+          <a href="../../rhde-microshift-bootc/1/index.html">1</a>
         </li>
       </ul>
     </li>
@@ -135,10 +150,10 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="index.html" class="home-link is-current"></a>
+  <a href="../../rhde-microshift-bootc/1/index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="index.html">Deploying MicroShift on RHEL Image Mode</a></li>
+    <li><a href="index.html">Deploying MicroShift on Red Hat Device Edge</a></li>
     <li><a href="index.html">Home</a></li>
   </ul>
 </nav>
@@ -148,52 +163,23 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Deploying MicroShift on RHEL Image Mode</h1>
+<h1 class="page">Deploying MicroShift on Red Hat Device Edge</h1>
 <div class="sect1">
 <h2 id="_objective"><a class="anchor" href="#_objective"></a>Objective</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This course teaches how to deploy and configure MicroShift on Red Hat Enterprise Linux (RHEL), using either package mode or image mode, to support Kubernetes applications.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-Work In Progress
-</td>
-</tr>
-</table>
+<p>This course teaches how to deploy and configure MicroShift on Red Hat Device Edge targets, using either traditional RHEL or RHEL for Edge, to support Kubernetes applications.</p>
 </div>
 <div class="paragraph">
-<p>It is part of a Red Hat Device Learning path, which currently includes three courses in two different tracks:</p>
+<p>It is part of a Red Hat Device Learning path, which currently includes two courses:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>For customers using RHEL for Edge and RPM-OSTree based edge images:</p>
-<div class="ulist">
-<ul>
-<li>
-<p><a href="https://redhatquickcourses.github.io/rhde-build/" target="_blank" rel="noopener">Building Red Hat Device Edge Images</a></p>
+<p><a href="https://redhatquickcourses.github.io/rhde-build/" target="_blank" rel="noopener">Building Red Hat Device Edge Images</a> (prerequisite course)</p>
 </li>
 <li>
-<p><a href="https://redhatquickcourses.github.io/rhde-microshift/">Deploying MicroShift on Red Hat Device Edge Quick Course</a></p>
-</li>
-</ul>
-</div>
-</li>
-<li>
-<p>For customers using RHEL image mode:</p>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Deploying MicroShift on RHEL Image Mode</strong> (this course)</p>
-</li>
-</ul>
-</div>
+<p><strong>Deploying MicroShift on Red Hat Device Edge Quick Course</strong> (this course)</p>
 </li>
 </ul>
 </div>
@@ -204,7 +190,7 @@ Work In Progress
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Red Hat employees must enroll using its [LMS entry^] to get completion credits, and Red Hat Partners must enroll using its [Partner Portal entry^].
+Red Hat employees must enroll using its <a href="https://training-lms.redhat.com/sso/saml/auth/rhlpint?RelayState=deeplinkoffering%3D71437146" target="_blank" rel="noopener">LMS entry</a> to get completion credits, and Red Hat Partners must enroll using its <a href="https://training-lms.redhat.com/sso/saml/auth/rhopen?RelayState=deeplinkoffering%3D71438619" target="_blank" rel="noopener">Partner Portal entry</a>.
 </td>
 </tr>
 </table>
@@ -247,7 +233,7 @@ Red Hat employees must enroll using its [LMS entry^] to get completion credits, 
 <div class="ulist">
 <ul>
 <li>
-<p>Attend the RHEL labs <a href="https://www.redhat.com/en/introduction-to-image-mode-for-red-hat-enterprise-linux-interactive-lab">Introduction to image mode for Red Hat Enterprise Linux</a> and <a href="https://www.redhat.com/en/day-2-operations-with-image-mode-for-red-hat-enterprise-linux">Day 2 operations with image mode for Red Hat Enterprise Linux</a>, or have equivalent experience with RHEL image mode.</p>
+<p>Attend <a href="https://redhatquickcourses.github.io/rhde-build/">RHDE-1: Building Red Hat Device Edge Images</a> or having equivalent experience with RHEL for Edge.</p>
 </li>
 <li>
 <p>Familiarity with RHEL system administration, to the level of <a href="https://www.redhat.com/en/services/certification/rhcsa">Red Hat Certified System Administrator (RHCSA)</a> or equivalent knowledge.</p>
@@ -273,18 +259,6 @@ Red Hat employees must enroll using its [LMS entry^] to get completion credits, 
 <div class="sectionbody">
 <div class="paragraph">
 <p>You can perform all activities in this course using the virtual classroom lab from <strong>HOL014: Red Hat Device Edge Quick Course Series</strong>, which is shared by all Red Hat Device Edge quick courses and will be updated as required by future related courses.</p>
-</div>
-<div class="admonitionblock warning">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-The current released version of HOL014 does NOT contain container images required by image mode. You have to manually copy the required images to the mirror registry, if you want to try the WIP course activities. HOL014 will be updated as part of releasing this quick course for general availability.
-</td>
-</tr>
-</table>
 </div>
 <div class="paragraph">
 <p>Use the following links to access the virtual classroom lab on Red Hat Online Learning (ROLE):</p>
@@ -346,10 +320,7 @@ The Red Hat Device Edge Quick Courses Series use ROLE for its virtual classroom 
 <p>We also recommend that you use the product documentation for <a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.17">Red Hat OpenShift Container Platform</a> for general Kubernetes topics, OpenShift extension APIs, and add-on operators which may be supported in MicroShift.</p>
 </div>
 <div class="paragraph">
-<p>The Red Hat Build of MicroShift is supported as part of Red Hat Device Edge, check its <a href="https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/index">overview document</a> for pointers to MicroShift, RHEL for Edge, and other components of Red Hat Device Edge.</p>
-</div>
-<div class="paragraph">
-<p>For documentation about RHEL image mode, see the <a href="https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html-single/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/index">RHEL product documentation</a>.</p>
+<p>The Red Hat Build of MicroShift is supported as part of Red Hat Device Edge, check its <a href="https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/index">overview document</a> for pointers to MicroShift, RHEL for Edge, and other components of Red Hat Device Edge, in particular the documentation about <a href="https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/composing_installing_and_managing_rhel_for_edge_images/index">Composing, installing, and managing RHEL for Edge images</a>.</p>
 </div>
 <div class="paragraph">
 <p>It is not expected that you need to use the <a href="https://microshift.io/">open source upstream</a> of MicroShift and its community documentation for day to day use of the Red Hat Build of MicroShift.</p>
@@ -363,6 +334,12 @@ The Red Hat Device Edge Quick Courses Series use ROLE for its virtual classroom 
 <p><strong>Fernando Lozano</strong><br>
 Training Content Architect<br>
 Red Hat - Product Portfolio Marketing &amp; Learning</p>
+</div>
+<div class="paragraph">
+<p>Special thanks to Gregory Giguashvili and Vladislav Walek for all their support while writing this course and testing its hands-on activities.</p>
+</div>
+<div class="paragraph">
+<p>Many thanks to Daniel Froehlich for his support in reviewing the course design, its outline, work-in-progress contents, and answering my newbie questions, and also to Eric Lavarde for reviews and feedback during course development.</p>
 </div>
 </div>
 </div>

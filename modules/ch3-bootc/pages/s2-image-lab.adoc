@@ -22,7 +22,7 @@ You need a few machines to perform the hands-on activities in this course.
 
 * A _package server machine_ already configured to serve DNF repositories for RHEL, Fast Datapath for RHEL, and Red Hat OpenShift Container Platform.
 
-* A _web server machine_ with RHEL and unrestricted `sudo`, to miscelaneous files for your RHEL and MicroShift VMs.
+* A _web server machine_ with RHEL and unrestricted `sudo`, to provide miscelaneous files for your RHEL and MicroShift VMs.
 
 * A _mirror registry machine_ with RHEL and unrestricted `sudo`, already populated with the container images required by MicroShift and sample applications.
 
@@ -44,13 +44,12 @@ IMPORTANT: Be sure you execute each step on the correct machine. If a step is no
 +
 [source,subs="verbatim,quotes"]
 --
-$ *curl http://servera.lab.example.com*
+$ *curl -s http://servera.lab.example.com | head -n 5*
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
         <head>
                 <title>Test Page for the HTTP Server on Red Hat Enterprise Linux</title>
-...
 --
 
 .. Check that your unprivileged user has access to Libvirt session VMs.
@@ -174,7 +173,7 @@ include::1@samples:microshift:example$Containerfile-bootc[lines=32]
 ...
 --
 
-... Add a CA certificate for the mirror registry. Remember that you download that CA file in the xref:ch1-microshift:s3-air-gapped-lab.adoc[first chapter]
+... Add a CA certificate for the mirror registry. Remember that you download that CA file in the xref:ch1-microshift:s3-air-gapped-lab.adoc[first chapter].
 +
 [source,subs="verbatim"]
 --
@@ -295,7 +294,7 @@ $ *SSH_PUB_KEY=$( cat edge-key.pub )*
 $ *sed -i "s|REPLACE_WITH_SSH_PUB_KEY|$SSH_PUB_KEY|" config.toml*
 --
 
-.. Embed your pull secret in the blueprint.
+.. Embed your pull secret in the blueprint. [ sed fails here, tried quoting all symbols, but wasn't enough... revert to having the secret hardcoded in the quickstart? ]
 +
 [source,subs="verbatim,quotes"]
 --
@@ -309,8 +308,12 @@ $ *sed -i "s|REPLACE_WITH_PULL_SECRET|$PULL_SECRET|" config.toml*
 +
 [source,subs="verbatim,quotes"]
 --
-$ *podman build -f Containerfile-microshift -t rhde/microshift-bootc:4.17*
-GRAB OUTPUT
+$ *podman build -f Containerfile-bootc -t rhde/microshift-bootc:4.17*
+...
+COMMIT rhde/microshift-bootc:4.17
+--> b28ad90a8552
+Successfully tagged localhost/rhde/microshift-bootc:4.17
+b28ad90a8552d6b0009baf6c854bdcbc85650bfd28aed1ff18040697963cfd2
 --
 
 .. Copy your bootc container image to the mirror registry.
@@ -321,12 +324,16 @@ $ *skopeo copy containers-storage:localhost/rhde/microshift-bootc:4.17 docker://
 GRAB OUTPUT
 --
 
-.. Pull your bootc container image to the system container storage, so it can be read by bootc image builder.
+.. Login to the mirror registry, using sudo, and pull your bootc container image to the system container storage, so it can be read by bootc image builder.
 +
 [source,subs="verbatim,quotes"]
 --
+$ *sudo podman login -u microshift servera.lab.example.com:8443*
+password: *redhat123*
 $ *sudo podman pull servera.lab.example.com:8443/rhde/microshift-bootc:4.17*
-GRAB OUTPUT
+...
+Writing manifest to image destination
+b28ad90a8552d6b0009baf6c854bdcbc85650bfd28aed1ff18040697963cfd21
 --
 
 .. Create an installable ISO containing your bootc container image and your custom kickstart file.
@@ -373,12 +380,12 @@ NOTE: The `failed` state is expected for the `quay-app` service.
 --
 $ *iso-info rhel9-microshift-bootc.iso*
 ...
-Volume      : RHEL-9-5-0-BaseOS-x86_64
+Volume      : RHEL-9-5-BaseOS-x86_64
 No Joliet extensions
-$ *LABEL=RHEL-9-5-0-BaseOS-x86_64*
+$ *LABEL=RHEL-9-5-BaseOS-x86_64*
 --
 
-.. Create a KVM virtual machine from your installer image. The installation should proceed unattended until you get a login prompt. 
+.. Create a KVM virtual machine from your installer image. The installation should proceed unattended until you get a login prompt. [ ADD A VARIATION FOR GUI CONSOLE? ]
 +
 You could use different `virt-install` commands or the Cockpit web UI. The use of `--location` and `--extra-arg` in the following command enables the VM to run with a serial console, so you don't need to leave your shell and don't need to open a graphical console for your _edge machine_. [ CAN I USE A RELATIVE PATH WITH --location ? ]
 +
@@ -387,7 +394,7 @@ You could use different `virt-install` commands or the Cockpit web UI. The use o
 $ *virt-install --name edge-microshift-1 --os-variant rhel9.5 \
 --memory 4096 --vcpus 2 --disk size=20 --graphics=none --network bridge=virbr0 \
 --location /home/student/rhel9-microshift-bootc.iso \
---extra-arg inst.ks=hd:LABEL=$LABEL:/rhel9-microshift-installer.ks \
+--extra-arg inst.ks=hd:LABEL=$LABEL:/osbuild.ks \
 --extra-arg console=ttyS0 -v*
 ...
 ushift login:
@@ -400,6 +407,17 @@ NOTE: You may need to press kbd:[Enter] to see the login prompt, after the VM st
 [source,subs="verbatim,quotes"]
 --
 $ *ssh -i edge-key core@ushift*
+--
+
+.. If something goes wrong and you have to retry creating your VM
++
+[source,subs="verbatim,quotes"]
+--
+$ *virsh destroy edge-microshift-1*
+Domain 'edge-microshift-1' destroyed
+$ *virsh undefine edge-microshift-1 --remove-all-storage*
+Domain 'edge-microshift-1' has been undefined
+Volume 'vda'(/home/student/.local/share/libvirt/images/edge-microshift-1.qcow2) removed.
 --
 
 8. On your _edge machine_, verify that MicroShift is fully initialized.

@@ -220,7 +220,7 @@ Rewrite this as needed for image mode, may extract pieces to partials if they fi
 <p>A <em>package server machine</em> already configured to serve DNF repositories for RHEL, Fast Datapath for RHEL, and Red Hat OpenShift Container Platform.</p>
 </li>
 <li>
-<p>A <em>web server machine</em> with RHEL and unrestricted <code>sudo</code>, to miscelaneous files for your RHEL and MicroShift VMs.</p>
+<p>A <em>web server machine</em> with RHEL and unrestricted <code>sudo</code>, to provide miscelaneous files for your RHEL and MicroShift VMs.</p>
 </li>
 <li>
 <p>A <em>mirror registry machine</em> with RHEL and unrestricted <code>sudo</code>, already populated with the container images required by MicroShift and sample applications.</p>
@@ -266,13 +266,12 @@ Be sure you execute each step on the correct machine. If a step is not explicit 
 <p>Check that you can access your <em>web server machine</em>.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>curl http://servera.lab.example.com</strong>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>curl -s http://servera.lab.example.com | head -n 5</strong>
 &lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"&gt;
 
 &lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"&gt;
         &lt;head&gt;
-                &lt;title&gt;Test Page for the HTTP Server on Red Hat Enterprise Linux&lt;/title&gt;
-...</code></pre>
+                &lt;title&gt;Test Page for the HTTP Server on Red Hat Enterprise Linux&lt;/title&gt;</code></pre>
 </div>
 </div>
 </li>
@@ -459,7 +458,7 @@ ADD containers-policy.json.nosigs /etc/containers/policy.json
 </div>
 </li>
 <li>
-<p>Add a CA certificate for the mirror registry. Remember that you download that CA file in the <a href="../ch1-microshift/s3-air-gapped-lab.html" class="xref page">first chapter</a></p>
+<p>Add a CA certificate for the mirror registry. Remember that you download that CA file in the <a href="../ch1-microshift/s3-air-gapped-lab.html" class="xref page">first chapter</a>.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">...
@@ -679,7 +678,7 @@ $ <strong>sed -i "s|REPLACE_WITH_SSH_PUB_KEY|$SSH_PUB_KEY|" config.toml</strong>
 </div>
 </li>
 <li>
-<p>Embed your pull secret in the blueprint.</p>
+<p>Embed your pull secret in the blueprint. [ sed fails here, tried quoting all symbols, but wasn&#8217;t enough&#8230;&#8203; revert to having the secret hardcoded in the quickstart? ]</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>PULL_SECRET=$( cat mirror-pull-secret )</strong>
@@ -698,8 +697,12 @@ $ <strong>sed -i "s|REPLACE_WITH_PULL_SECRET|$PULL_SECRET|" config.toml</strong>
 <p>Build a bootc container image.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>podman build -f Containerfile-microshift -t rhde/microshift-bootc:4.17</strong>
-GRAB OUTPUT</code></pre>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>podman build -f Containerfile-bootc -t rhde/microshift-bootc:4.17</strong>
+...
+COMMIT rhde/microshift-bootc:4.17
+--&gt; b28ad90a8552
+Successfully tagged localhost/rhde/microshift-bootc:4.17
+b28ad90a8552d6b0009baf6c854bdcbc85650bfd28aed1ff18040697963cfd2</code></pre>
 </div>
 </div>
 </li>
@@ -713,11 +716,15 @@ GRAB OUTPUT</code></pre>
 </div>
 </li>
 <li>
-<p>Pull your bootc container image to the system container storage, so it can be read by bootc image builder.</p>
+<p>Login to the mirror registry, using sudo, and pull your bootc container image to the system container storage, so it can be read by bootc image builder.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo podman pull servera.lab.example.com:8443/rhde/microshift-bootc:4.17</strong>
-GRAB OUTPUT</code></pre>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo podman login -u microshift servera.lab.example.com:8443</strong>
+password: <strong>redhat123</strong>
+$ <strong>sudo podman pull servera.lab.example.com:8443/rhde/microshift-bootc:4.17</strong>
+...
+Writing manifest to image destination
+b28ad90a8552d6b0009baf6c854bdcbc85650bfd28aed1ff18040697963cfd21</code></pre>
 </div>
 </div>
 </li>
@@ -783,14 +790,14 @@ The <code>failed</code> state is expected for the <code>quay-app</code> service.
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>iso-info rhel9-microshift-bootc.iso</strong>
 ...
-Volume      : RHEL-9-5-0-BaseOS-x86_64
+Volume      : RHEL-9-5-BaseOS-x86_64
 No Joliet extensions
-$ <strong>LABEL=RHEL-9-5-0-BaseOS-x86_64</strong></code></pre>
+$ <strong>LABEL=RHEL-9-5-BaseOS-x86_64</strong></code></pre>
 </div>
 </div>
 </li>
 <li>
-<p>Create a KVM virtual machine from your installer image. The installation should proceed unattended until you get a login prompt.</p>
+<p>Create a KVM virtual machine from your installer image. The installation should proceed unattended until you get a login prompt. [ ADD A VARIATION FOR GUI CONSOLE? ]</p>
 <div class="paragraph">
 <p>You could use different <code>virt-install</code> commands or the Cockpit web UI. The use of <code>--location</code> and <code>--extra-arg</code> in the following command enables the VM to run with a serial console, so you don&#8217;t need to leave your shell and don&#8217;t need to open a graphical console for your <em>edge machine</em>. [ CAN I USE A RELATIVE PATH WITH --location ? ]</p>
 </div>
@@ -799,7 +806,7 @@ $ <strong>LABEL=RHEL-9-5-0-BaseOS-x86_64</strong></code></pre>
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>virt-install --name edge-microshift-1 --os-variant rhel9.5 \
 --memory 4096 --vcpus 2 --disk size=20 --graphics=none --network bridge=virbr0 \
 --location /home/student/rhel9-microshift-bootc.iso \
---extra-arg inst.ks=hd:LABEL=$LABEL:/rhel9-microshift-installer.ks \
+--extra-arg inst.ks=hd:LABEL=$LABEL:/osbuild.ks \
 --extra-arg console=ttyS0 -v</strong>
 ...
 ushift login:</code></pre>
@@ -823,6 +830,18 @@ You may need to press <kbd>Enter</kbd> to see the login prompt, after the VM sto
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>ssh -i edge-key core@ushift</strong></code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>If something goes wrong and you have to retry creating your VM</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>virsh destroy edge-microshift-1</strong>
+Domain 'edge-microshift-1' destroyed
+$ <strong>virsh undefine edge-microshift-1 --remove-all-storage</strong>
+Domain 'edge-microshift-1' has been undefined
+Volume 'vda'(/home/student/.local/share/libvirt/images/edge-microshift-1.qcow2) removed.</code></pre>
 </div>
 </div>
 </li>

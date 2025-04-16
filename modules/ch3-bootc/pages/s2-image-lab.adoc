@@ -1,6 +1,4 @@
 :time_estimate: 5
-:compose-commit-uuid-aaaaaaaaaaaaaa: be27c45f-e1ea-42eb-94b3-a0789243bea4
-:compose-installer-uuid-aaaaaaaaaaa: 170edc4e-9384-4e86-b616-7c09eaa718e4
 
 = Lab: Create Bootc Container Images with MicroShift
 
@@ -12,13 +10,11 @@ Provision a RHEL image mode system with MicroShift, fully disconnected, from an 
 
 WARNING: Work In Progress
 
-IMPORTANT: Rewrite this as needed for image mode, may extract pieces to partials if they fit both RPM-OSTree and bootc
-
 == Before you Begin
 
 You need a few machines to perform the hands-on activities in this course. 
 
-* A _development machine_ with RHEL and unrestricted `sudo`, where you will create KVM VMs using Libvirt, build bootc container iamges, run bootc image builder, and also run the OpenShift client to access your MicroShift instances.
+* A _development machine_ with RHEL and unrestricted `sudo`, where you will create KVM VMs using Libvirt, build bootc container iamges, run bootc image builder to build installation images, and also run the OpenShift client to access your MicroShift instances.
 
 * A _package server machine_ already configured to serve DNF repositories for RHEL, Fast Datapath for RHEL, and Red Hat OpenShift Container Platform.
 
@@ -63,7 +59,7 @@ CPU model:           x86_64
 ...
 --
 
-.. Check that you have a valid pull secret for your your _mirror registry machine_ and that you can access it with TLS validation enabled. [ Review this output because of bootc containers ]
+.. Check that you have a valid pull secret for your your _mirror registry machine_ and that you can access it with TLS validation enabled.
 +
 [source,subs="verbatim,quotes"]
 --
@@ -71,14 +67,16 @@ $ *podman search --authfile mirror-pull-secret servera.lab.example.com:8443/*
 NAME                                                                 DESCRIPTION
 servera.lab.example.com:8443/lvms4/lvms-rhel9-operator               
 servera.lab.example.com:8443/openshift-release-dev/ocp-v4.0-art-dev  
-servera.lab.example.com:8443/rhel9/mysql-80                          
 servera.lab.example.com:8443/flozanorht/php-ubi                      
-servera.lab.example.com:8443/ubi9/ubi  
+servera.lab.example.com:8443/rhel9/mysql-80                          
+servera.lab.example.com:8443/ubi9/ubi                                
+servera.lab.example.com:8443/rhel9/rhel-bootc                        
+servera.lab.example.com:8443/rhel9/bootc-image-builder
 --
 
 .. Check that output from the previous command shows that the mirror registry is already populated with MicroShift release images (`openshift-release-dev/ocp-v4.0-art-dev`) and LVM Storage operator images (`lvms4/lvms-rhel9-operator`).
 
-2. Configure the _development machine_ to use the mirror registry, so it can build bootc container images without internet access.
+2. Configure the _development machine_ to use the mirror registry, so it can build bootc container images without internet access and without credentails to Red Hat container registries.
 
 .. Configure the container runtime to get MicroShift release images from the mirror registry.
 +
@@ -100,14 +98,14 @@ $ *sudo cp containers-policy.json.nosigs /etc/containers/policy.json*
 
 3. Download and inspect a containerfile for a preconfigured MicroShift instance. That container file requires the files downloaded during the previous step, and a few more files you will download right now.
 
-.. Download the https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-bootc[sample containerfile] from the course samples git repository. It is a long Containerfile but, assuming that you performed all activities from the the xref:ch2-package[previous chapter] of this course, there should be no surprises.
+.. Download the https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-embedded[sample containerfile] from the course samples git repository. It is a long Containerfile but, assuming that you performed all activities from the the xref:ch2-package[previous chapter] of this course, there should be no surprises.
 +
 [source,subs="verbatim,quotes"]
 --
-$ *wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-bootc*
+$ *wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-embedded*
 --
 
-.. Review the `Containerfile-bootc` file and make sure you understand its instructions:
+.. Review the `Containerfile-embedded` file and make sure you understand its instructions. It contains many `RUN` instructions with shell heredocs to minize the number of layers and for increased legibility.
 +
 NOTE: The code snippets here help you locate the relevant sections in the Containerfile, but they do not list the entirety of most sections. Follow along with a text editor and navigate through the blueprint file.
 
@@ -115,25 +113,30 @@ NOTE: The code snippets here help you locate the relevant sections in the Contai
 +
 [source,subs="verbatim"]
 --
-include::1@samples:microshift:example$Containerfile-bootc[lines=1]
+...
+include::1@samples:microshift:example$Containerfile-embedded[lines=5]
 ...
 --
++
+WARNING: This containerfile uses RHEL 9.5, which is NOT a supported version for MicroShift 4.17. Check the https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/device-edge-overview#device-edge-compatibility_device-edge-overview[Red Hat Device Edge product documentation] for the supported combinations of RHEL and MicroShift releases. It may be necessary to use an EUS version of RHEL base bootc container images and package repositories to get the latest RHEL security and bug fixes.
++
+IMPORTANT: Different RHEL releases are expected to work most of the times, but if you have issues and create support tickets, you may be asked to reproduce the issue using a supported version of RHEL.
 
-... Configure DNF repositories
+... Configure DNF repositories.
 +
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=3]
+include::1@samples:microshift:example$Containerfile-embedded[lines=7]
 ...
 --
 
-... Install the MicroShift packages and dependencies. You need the optional `microshift-release-info` package because it provides the list of container images to embed in the bootc container image, later in this containerfile.
+... Install the MicroShift packages and dependencies. You need the optional `microshift-release-info` package because it provides the list of MicroShift container images to embed in the bootc container image.
 +
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=5..7]
+include::1@samples:microshift:example$Containerfile-embedded[lines=9..16]
 ...
 --
 
@@ -142,16 +145,16 @@ include::1@samples:microshift:example$Containerfile-bootc[lines=5..7]
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=10..13]
+include::1@samples:microshift:example$Containerfile-embedded[lines=20..28]
 ...
 --
 
-... Enable a first boot service, which sets file permissions required by OVN.
+... Enable a first-boot service, which sets file permissions as required by OVN.
 +
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=17..28]
+include::1@samples:microshift:example$Containerfile-embedded[lines=33..50]
 ...
 --
 
@@ -160,16 +163,16 @@ include::1@samples:microshift:example$Containerfile-bootc[lines=17..28]
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=31]
+include::1@samples:microshift:example$Containerfile-embedded[lines=54]
 ...
 --
 
-... Add an image policy which disables signature validation.
+... Add an image policy which disables signature validation, because the mirror registry was populated without signatures.
 +
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=32]
+include::1@samples:microshift:example$Containerfile-embedded[lines=55]
 ...
 --
 
@@ -178,29 +181,40 @@ include::1@samples:microshift:example$Containerfile-bootc[lines=32]
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=33..34]
+include::1@samples:microshift:example$Containerfile-embedded[lines=56..57]
 ...
 --
 
-... Embed the MicroShift release container images in the system image.
+... Embed the MicroShift release container images in the system image and also container images for the applications pods that will run on that MicroShift cluster.
++
+A copy of image Red Hat Universal Base Image (UBI) `registry.redhat.io/ubi9/ubi:latest` in the mirror registry at `servera.lab.example.com:8443` stands in for an application image. You can add more application images to the `appimage` shell variable, if you wish, and also add https://docs.redhat.com/it/documentation/red_hat_build_of_microshift/4.17/html-single/running_applications/index#microshift-manifests-overview_applications-microshift[Kustomize manifests] to directories such as `/usr/lib/microshift/` on your bootc container image.
 +
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=40..52]
+include::1@samples:microshift:example$Containerfile-embedded[lines=63..82]
 ...
 --
 
-... Embed a script which copies the autogenerated kubeconfig files to the `core` user home directory. [ PENDING, DO ON KICKSTART? OR IN THE CONTAINERFILE? ]
+... Continuing the previous RUN instruction, create a systemd drop-in configuration for the MicroShift service which copies the container images to the system container storage, so they can be run as Kubernetes pods.
 +
 [source,subs="verbatim"]
 --
 ...
-include::1@samples:microshift:example$Containerfile-bootc[lines=75]
+include::1@samples:microshift:example$Containerfile-embedded[lines=84..102]
+...
+--
+
+... Create a first-boot service which copies the autogenerated kubeconfig files to the `core` user home directory.
++
+[source,subs="verbatim"]
+--
+...
+include::1@samples:microshift:example$Containerfile-embedded[lines=106..138]
 ...
 --
 +
-NOTE: The script starts before MicroShift is fully initialized so it was coded to wait until MicroShift autogenerates the kubeconfig files.
+NOTE: The first-boot service starts before MicroShift is fully initialized so it was coded to wait until MicroShift autogenerates the kubeconfig files.
 
 .. Download DNF repository configuration files that refer to the _package server machine_.
 +
@@ -213,9 +227,9 @@ $ *wget -qP yum.d https://raw.githubusercontent.com/RedHatQuickCourses/rhde-buil
 $ *wget -qP yum.d https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/yum.d/rhocp-4.17-for-rhel-9-x86_64-rpms.repo*
 --
 
-.. Embed a test application container image in the bootc container image [ TBD ]
-
 4. Download and inspect a blueprint for a customized installation ISO.
++
+This blueprint contains only kickstart file customizations that, among other things, provide secrets for SSH and mirror registry access. Alternatively, such secrets could be provided after installation, by an onboarding process, managed by Ansible or other automation technology.
 
 .. Download the https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/config.toml[sample installer blueprint] from the course samples git repository. It basically contains a customized kickstart file.
 +
@@ -255,7 +269,7 @@ include::1@samples:microshift:example$config.toml[lines=26..31]
 ...
 --
 +
-NOTE: Production systems would NOT enable password login. We left it here as a convenience for the learner, so you can log in at the VM console for troubleshooting.
+NOTE: Production systems would NOT enable password login and would leave the user without any password. We left it here as a convenience for the learner, so you can later log in at the console of your _edge machine_ for troubleshooting, if you wish.
 
 ... Also in the post install script, add a pull secret for the mirror registry.
 +
@@ -266,7 +280,9 @@ include::1@samples:microshift:example$config.toml[lines=34..37]
 ...
 --
 
-... End the post install script by setting the hostname to `ushift` where the letter "u" stands for the Greek letter "micro", just for convenience.
+... End the post install script by setting the hostname to `ushift` where the letter "u" stands for the Greek letter "micro".
++
+NOTE: Production edge machines wouldn't share the same hostname, but we set one here as a convenience for the learner, so you can use that hostname for SSH sessions using the Libvirt NSS module.
 +
 [source,subs="verbatim"]
 --
@@ -294,11 +310,11 @@ $ *SSH_PUB_KEY=$( cat edge-key.pub )*
 $ *sed -i "s|REPLACE_WITH_SSH_PUB_KEY|$SSH_PUB_KEY|" config.toml*
 --
 
-.. Embed your pull secret in the blueprint. [ sed fails here, tried quoting all symbols, but wasn't enough... revert to having the secret hardcoded in the quickstart? ]
+.. Embed your pull secret in the blueprint. You have to use the `jq` command to ensure that your pull secret is formatted as a single-line JSON string. You already generated the pull secret file in a xref:ch1-microshift:s3-air-gapped-lab.adoc[previous lab].
 +
 [source,subs="verbatim,quotes"]
 --
-$ *PULL_SECRET=$( cat mirror-pull-secret )*
+$ *PULL_SECRET=$( jq -c . mirror-pull-secret )*
 $ *sed -i "s|REPLACE_WITH_PULL_SECRET|$PULL_SECRET|" config.toml*
 --
 
@@ -306,22 +322,43 @@ $ *sed -i "s|REPLACE_WITH_PULL_SECRET|$PULL_SECRET|" config.toml*
 
 .. Build a bootc container image.
 +
+The Containerfile contains instructions which access the mirror container registry, so we must pass credentials using the `--secret` option. Remember that secret was NOT embedded into the Containerfile, but only in the blueprint for the installation ISO.
++
+Try to identify, as part of the build messages, the output of the `skopeo copy` commands which copy MicroShift and application container images to the bootc container image.
++
 [source,subs="verbatim,quotes"]
 --
-$ *podman build -f Containerfile-bootc -t rhde/microshift-bootc:4.17*
+$ *podman build --secret "id=pullsecret,src=mirror-pull-secret" -f Containerfile-embedded -t rhde/microshift-bootc-embedded:4.17*
 ...
-COMMIT rhde/microshift-bootc:4.17
+COMMIT rhde/microshift-bootc-embedded:4.17
 --> b28ad90a8552
-Successfully tagged localhost/rhde/microshift-bootc:4.17
+Successfully tagged localhost/rhde/microshift-bootc-embedded:4.17
 b28ad90a8552d6b0009baf6c854bdcbc85650bfd28aed1ff18040697963cfd2
+--
++
+WARNING: If, by some reason, you meed to build your bootc container image again with small changes, we recommend that you add the `--no-cache` option to the `podman build` command above.
+
+.. Test the bootc container image as a regular container. Check for the presense of systemd units, their scripts, and container engine configuration files.
++
+Many bootc container images are not designed to be run as regular container, and this is the case of bootc images including MicroShift, because they depend on the kernel, system services, and other configurations embeded into its bootc image that won't be available on the container host.
++
+Testing bootc images from a regular container is useful to check if files are created and changed as expected, and sometimes for testing scripts that you would run at boot.
++
+[source,subs="verbatim,quotes"]
+--
+$ *podman run --name test-bootc --rm -it localhost/rhde/microshift-bootc-embedded:4.17 /bin/bash*
+bash-5.1# *less /etc/microshift/firstboot-microshift-user*
+bash-5.1# *less /etc/containers/policy.json*
+bash-5.1# *exit*
 --
 
 .. Copy your bootc container image to the mirror registry.
 +
 [source,subs="verbatim,quotes,attributes"]
 --
-$ *skopeo copy containers-storage:localhost/rhde/microshift-bootc:4.17 docker://servera.lab.example.com:8443/rhde/microshift-bootc:4.17*
-GRAB OUTPUT
+$ *skopeo copy containers-storage:localhost/rhde/microshift-bootc-embedded:4.17 docker://servera.lab.example.com:8443/rhde/microshift-bootc-embedded:4.17*
+...
+Writing manifest to image destination
 --
 
 .. Login to the mirror registry, using sudo, and pull your bootc container image to the system container storage, so it can be read by bootc image builder.
@@ -330,13 +367,15 @@ GRAB OUTPUT
 --
 $ *sudo podman login -u microshift servera.lab.example.com:8443*
 password: *redhat123*
-$ *sudo podman pull servera.lab.example.com:8443/rhde/microshift-bootc:4.17*
+$ *sudo podman pull servera.lab.example.com:8443/rhde/microshift-bootc-embedded:4.17*
 ...
 Writing manifest to image destination
 b28ad90a8552d6b0009baf6c854bdcbc85650bfd28aed1ff18040697963cfd21
 --
 
 .. Create an installable ISO containing your bootc container image and your custom kickstart file.
++
+Be patient, it takes a while to create the ISO. You will see many error messages, related to Grub, disk devices, and `/dev/log` which you safely ignore.
 +
 [source,subs="verbatim,quotes"]
 --
@@ -348,15 +387,25 @@ $ *sudo podman run --rm -it --privileged --pull=newer \
     -v $(pwd)/output:/output \
     servera.lab.example.com:8443/rhel9/bootc-image-builder:9.5 \
     --type iso --local --config /config.toml \
-    servera.lab.example.com:8443/rhde/microshift-bootc:4.17*
-GRAB OUTPUT
+    servera.lab.example.com:8443/rhde/microshift-bootc-embedded:4.17*
+...
+Build complete!
+Results saved in
+.
 --
 
 .. Copy the installable ISO from the bootc image builder temporary output directory to a more permanent localtion, and give it an easily identifiable name. That file would be distributed to personel responsible for installing actual edge devices. 
 +
 [source,subs="verbatim,quotes"]
 --
-$ *cp output/bootiso/install.iso rhel9-microshift-bootc.iso*
+$ *cp output/bootiso/install.iso rhel9-microshift-bootc-embedded.iso*
+--
+
+.. If you need to rebuild your installation ISO, for whatever reason, we recommend that you first clean your bootc image builder output directory.
++
+[source,subs="verbatim,quotes"]
+--
+$ *sudo rm -rf output; mkdir output*
 --
 
 6. On your _web server machine_, stop the mirror registry for Red Hat OpenShift, so you can prove that your installation disk can actually work in disconnected edge sites.
@@ -372,35 +421,39 @@ inactive
 +
 NOTE: The `failed` state is expected for the `quay-app` service.
 
-7. On your _development machine_, create a KVM virtual machine to test your edge installer image.
+7. On your _development machine_, create a KVM virtual machine, as your _edge machine_, to test your installation ISO.
 
-.. Set a shell variable with the disk label of your installer image, by copy-and-paste from the output of the `iso-info` command.
+.. Set a shell variable with the disk label of your installation ISO, by copy-and-paste from the output of the `iso-info` command.
 +
 [source,subs="verbatim,quotes"]
 --
-$ *iso-info rhel9-microshift-bootc.iso*
+$ *iso-info rhel9-microshift-bootc-embedded.iso*
 ...
 Volume      : RHEL-9-5-BaseOS-x86_64
 No Joliet extensions
 $ *LABEL=RHEL-9-5-BaseOS-x86_64*
 --
 
-.. Create a KVM virtual machine from your installer image. The installation should proceed unattended until you get a login prompt. [ ADD A VARIATION FOR GUI CONSOLE? ]
+.. Create a KVM virtual machine from your installer image. The installation should proceed unattended until you get a login prompt.
 +
-You could use different `virt-install` commands or the Cockpit web UI. The use of `--location` and `--extra-arg` in the following command enables the VM to run with a serial console, so you don't need to leave your shell and don't need to open a graphical console for your _edge machine_. [ CAN I USE A RELATIVE PATH WITH --location ? ]
+You could use different variations of the `virt-install` command or the Cockpit web UI.
++
+The use of `--location` and `--extra-arg` in the following command enables the VM to run with a serial console, so you don't need to leave your shell and don't need to open a graphical console for your _edge machine_. It also makes it easier to scroll up for boot messages and copy-and-paste them if you have issues during operating system installation.
 +
 [source,subs="verbatim,quotes"]
 --
 $ *virt-install --name edge-microshift-1 --os-variant rhel9.5 \
 --memory 4096 --vcpus 2 --disk size=20 --graphics=none --network bridge=virbr0 \
---location /home/student/rhel9-microshift-bootc.iso \
+--location /home/student/rhel9-microshift-bootc-embedded.iso \
 --extra-arg inst.ks=hd:LABEL=$LABEL:/osbuild.ks \
 --extra-arg console=ttyS0 -v*
 ...
-ushift login:
+Domain creation completed.
+Restarting guest.
+Running text console command: virsh --connect qemu:///session console edge-microshift-1
+Connected to domain 'edge-microshift-1'
+Escape character is ^] (Ctrl + ])
 --
-+
-NOTE: You may need to press kbd:[Enter] to see the login prompt, after the VM stops displaying console messages.
 
 .. Detach from the VM console, by pressing kbd:[Ctrl+\]], and start an SSH session to your _edge machine_.
 +
@@ -409,7 +462,9 @@ NOTE: You may need to press kbd:[Enter] to see the login prompt, after the VM st
 $ *ssh -i edge-key core@ushift*
 --
 
-.. If something goes wrong and you have to retry creating your VM
+.. If something goes wrong and you have to retry creating your VM, first stop and delete it.
++
+WARNING: the `--remove-all-storage` option also deletes the copy of the installation ISO in your home directory.
 +
 [source,subs="verbatim,quotes"]
 --
@@ -422,11 +477,81 @@ Volume 'vda'(/home/student/.local/share/libvirt/images/edge-microshift-1.qcow2) 
 
 8. On your _edge machine_, verify that MicroShift is fully initialized.
 
-.. Check that MicroShift is healthy and all its pods are ready and running. Beware it may take a while for MicroShift to finish starting all its pods. [ ADD THE FIRST BOOT UNIT TO CREATE local-admin ]
+.. MicroShift will ony start after all its container images are copied to the system container storage, which takes a few moments. You may log in BEFORE this process finishes, and see that MicroShift is still initializing, and there are no kubeconfig files on the `core` user home dir:
 +
 [source,subs="verbatim,quotes"]
 --
-$ *export KUBECONFIG=~/local-admin*
+[core@ushift ~]$ *ls*
+[core@ushift ~]$ *sudo systemctl status microshift*
+● microshift.service - MicroShift
+     Loaded: loaded (/usr/lib/systemd/system/microshift.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/microshift.service.d
+             └─microshift-copy-images.conf
+     Active: activating (start) since Wed 2025-04-16 20:10:52 UTC; 57s ago
+    Process: 1323 ExecStartPre=/usr/bin/microshift-copy-images (code=exited, status=0/SUCCESS)
+   Main PID: 1926 (microshift)
+      Tasks: 10 (limit: 24497)
+     Memory: 2.6G
+        CPU: 1min 541ms
+     CGroup: /system.slice/microshift.service
+             └─1926 microshift run
+
+Apr 16 20:11:49 ushift microshift[1926]: kube-controller-manager I0416 20:11:49.332392    1926 flags.go:64] FLAG: --v="2"
+...
+--
++
+Notice, on the previous output, that the service is still activating, but already finished executing the `microshift-copy-images` script.
+
+.. If you wish, you can monitor the image copy process using Podman, because CRI-O shares the same system container storage with Podman. When the process is finished, you will see a full list of MicroShift container images and also application container images.
++
+IMPORTANT: You will NOT be able to see running containers from CRI-O using Podman, for that you must use the `crictl` command.
++
+[source,subs="verbatim,quotes"]
+--
+[core@ushift ~]$ *sudo podman image list*
+REPOSITORY                                      TAG         IMAGE ID      CREATED       SIZE
+servera.lab.example.com:8443/ubi9/ubi           latest      5786f8628d2b  4 months ago  235 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      b9eea29c1aa7  5 months ago  443 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      6f3477d85988  6 months ago  545 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      7545cdfef9cb  6 months ago  378 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      7a807114ca71  6 months ago  474 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      77a00c94fe66  6 months ago  475 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      6c0eec767dda  6 months ago  437 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      46100a19b1e3  6 months ago  428 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      bf72a726f4d6  6 months ago  466 MB
+quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      c3ec92a2d320  6 months ago  622 MB
+registry.redhat.io/lvms4/lvms-rhel9-operator    <none>      2b9159626250  6 months ago  218 MB
+--
+
+.. Wait until the MicroShift service reports as being active and healthy.
++
+[source,subs="verbatim,quotes"]
+--
+[core@ushift ~]$ *sudo systemctl status microshift*
+● microshift.service - MicroShift
+     Loaded: loaded (/usr/lib/systemd/system/microshift.service; enabled; preset: disabled)
+    Drop-In: /usr/lib/systemd/system/microshift.service.d
+             └─microshift-copy-images.conf
+     Active: active (running) since Wed 2025-04-16 20:12:44 UTC; 37s ago
+...
+--
++
+Notice, on the previous output, that the service is active.
+
+.. Close your SSH session to your _edge machine_ and reconnect, so your new SSH session gets the changes made to `~/.bashrc` by the first-boot service:
++
+[source,subs="verbatim,quotes"]
+--
+[core@ushift ~]$ *ls*
+local-admin  remote-admin
+[core@ushift ~]$ *echo $KUBECONFIG*
+/var/home/core/local-admin
+--
+
+.. Check that MicroShift is healthy and all its pods are ready and running. Beware it may take a while for MicroShift to finish starting all its pods.
++
+[source,subs="verbatim,quotes"]
+--
 $ *oc get node*
 NAME     STATUS   ROLES                         AGE   VERSION
 ushift   Ready    control-plane,master,worker   10m   v1.30.5
@@ -446,11 +571,11 @@ openshift-storage          vg-manager-5n494                           1/1     Ru
 +
 NOTE: If you are too quick, you may get a `NotReady` state from `oc get node`, or a "no resources found" error from `oc get pod`. If any of this happens, just wait a few seconds and try again.
 
-.. As an additional check, create a test pod from the sample application image we included in the bootc container image. [ NOT YET ]
+.. As a final check, create a test pod from the sample application image we included in the bootc container image.
 +
 [source,subs="verbatim,quotes"]
 --
-$ *oc run shell -it --restart Never --image-pull-policy IfNotPresent --image servera.lab.example.com:8443/ubi9/ubi -- rpm -q redhat-release*
+$ *oc run shell -it --restart Never --image-pull-policy Never --image servera.lab.example.com:8443/ubi9/ubi:latest -- rpm -q redhat-release*
 redhat-release-9.5-0.6.el9.x86_64
 $ *oc delete pod shell*
 pod "shell" deleted

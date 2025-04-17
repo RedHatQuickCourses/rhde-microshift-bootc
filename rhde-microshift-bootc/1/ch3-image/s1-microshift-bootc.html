@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>RHEL for Edge images With MicroShift :: Deploying MicroShift on RHEL Image Mode</title>
+    <title>RHEL Image Mode With MicroShift :: Deploying MicroShift on RHEL Image Mode</title>
     <link rel="prev" href="index.html">
     <link rel="next" href="s2-image-lab.html">
     <meta name="generator" content="Antora 3.1.3">
@@ -30,12 +30,12 @@
   </nav>
 </header>
 <div class="body">
-<div class="nav-container" data-component="rhde-microshift" data-version="1">
+<div class="nav-container" data-component="rhde-microshift-bootc" data-version="1">
   <aside class="nav">
     <div class="panels">
 <div class="nav-panel-menu is-active" data-panel="menu">
   <nav class="nav-menu">
-    <h3 class="title"><a href="../index.html">Deploying MicroShift on Red Hat Device Edge</a></h3>
+    <h3 class="title"><a href="../index.html">Deploying MicroShift on RHEL Image Mode</a></h3>
 <ul class="nav-list">
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
@@ -54,10 +54,10 @@
     <a class="nav-link" href="../ch1-microshift/s1-microshift-vs-ocp.html">Introduction to MicroShift and Red Hat Device Edge</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch1-microshift/s2-prepare-lab.html">Lab: Prepare a Test Environment for Red Hat Device Edge</a>
+    <a class="nav-link" href="../ch1-microshift/s2-prepare-lab.html">Lab: Prepare a Test Environment for Image Mode and MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch1-microshift/s3-air-gapped-lab.html">Lab: Prepare a Test Environment for MicroShift</a>
+    <a class="nav-link" href="../ch1-microshift/s3-air-gapped-lab.html">Lab: Prepare a Disconnected Environment for MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="../ch1-microshift/s4-summary.html">Summary</a>
@@ -95,13 +95,13 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Deploy MicroShift on Edge Devices</a>
+    <a class="nav-link" href="index.html">Deploy MicroShift on RHEL Image Mode</a>
 <ul class="nav-list">
   <li class="nav-item is-current-page" data-depth="2">
-    <a class="nav-link" href="s1-microshift-edge.html">RHEL for Edge images With MicroShift</a>
+    <a class="nav-link" href="s1-microshift-bootc.html">RHEL Image Mode With MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="s2-image-lab.html">Lab: Create RHEL for Edge Images with MicroShift</a>
+    <a class="nav-link" href="s2-image-lab.html">Lab: Create Bootc Container Images with MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
     <a class="nav-link" href="s4-summary.html">Summary</a>
@@ -115,23 +115,23 @@
 </div>
 <div class="nav-panel-explore" data-panel="explore">
   <div class="context">
-    <span class="title">Deploying MicroShift on Red Hat Device Edge</span>
+    <span class="title">Deploying MicroShift on RHEL Image Mode</span>
     <span class="version">1</span>
   </div>
   <ul class="components">
-    <li class="component is-current">
-      <a class="title" href="../index.html">Deploying MicroShift on Red Hat Device Edge</a>
+    <li class="component">
+      <a class="title" href="../../../rhde-microshift/1/index.html">Deploying MicroShift on Red Hat Device Edge</a>
       <ul class="versions">
-        <li class="version is-current is-latest">
-          <a href="../index.html">1</a>
+        <li class="version is-latest">
+          <a href="../../../rhde-microshift/1/index.html">1</a>
         </li>
       </ul>
     </li>
-    <li class="component">
-      <a class="title" href="../../../rhde-microshift-bootc/1/index.html">Deploying MicroShift on RHEL Image Mode</a>
+    <li class="component is-current">
+      <a class="title" href="../index.html">Deploying MicroShift on RHEL Image Mode</a>
       <ul class="versions">
-        <li class="version is-latest">
-          <a href="../../../rhde-microshift-bootc/1/index.html">1</a>
+        <li class="version is-current is-latest">
+          <a href="../index.html">1</a>
         </li>
       </ul>
     </li>
@@ -151,12 +151,12 @@
 <main class="article">
 <div class="toolbar" role="navigation">
 <button class="nav-toggle"></button>
-  <a href="../../../rhde-microshift-bootc/1/index.html" class="home-link"></a>
+  <a href="../index.html" class="home-link"></a>
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
-    <li><a href="../index.html">Deploying MicroShift on Red Hat Device Edge</a></li>
-    <li><a href="index.html">Deploy MicroShift on Edge Devices</a></li>
-    <li><a href="s1-microshift-edge.html">RHEL for Edge images With MicroShift</a></li>
+    <li><a href="../index.html">Deploying MicroShift on RHEL Image Mode</a></li>
+    <li><a href="index.html">Deploy MicroShift on RHEL Image Mode</a></li>
+    <li><a href="s1-microshift-bootc.html">RHEL Image Mode With MicroShift</a></li>
   </ul>
 </nav>
 </div>
@@ -165,30 +165,42 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">RHEL for Edge images With MicroShift</h1>
+<h1 class="page">RHEL Image Mode With MicroShift</h1>
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p><em>Estimated reading time: <strong>10 minutes</strong>.</em></p>
+<p><em>Estimated reading time: <strong>5 minutes</strong>.</em></p>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Objective</dt>
 <dd>
-<p>Deploy MicroShift on edge devices with Image Builder and RPM-OSTree.</p>
+<p>Deploy MicroShift on RHEL image mode by building bootc container images and custom installation ISOs.</p>
 </dd>
 </dl>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+Work In Progress
+</td>
+</tr>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_microshift_on_ostree_system_images"><a class="anchor" href="#_microshift_on_ostree_system_images"></a>MicroShift on OSTree System Images</h2>
+<h2 id="_microshift_on_bootc_container_images"><a class="anchor" href="#_microshift_on_bootc_container_images"></a>MicroShift on Bootc Container Images</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Deploying MicroShift using edge images from image builder is not different than adding any other application to a RHEL system image. You could include MicroShift with a complete set of configuration files already embedded in an edge commit image; or you could include just MicroShift packages and add configuration files after installation, as part of an on-boarding process or other day-2 activity.</p>
+<p>Deploying MicroShift using image mode is not different than adding any other application to a bootc container image. You could include MicroShift with a complete set of configuration files already embedded in an edge commit image; or you could include just MicroShift packages and add configuration files after installation, as part of an on-boarding process or other day-2 activity.</p>
 </div>
 <div class="paragraph">
-<p>But, before we drive into the specifics of including MicroShift in edge images for air-gapped environments, let&#8217;s consider how image-based deployments differ than traditional package-based deployments and the most common ways that organizations use approach image-based deployments.</p>
+<p>But, before we drive into the specifics of including MicroShift in bootc container images for air-gapped environments, let&#8217;s consider how image mode deployments differ than traditional package mode deployments and the most common ways that organizations use approach image mode deployments.</p>
 </div>
 </div>
 </div>
@@ -206,7 +218,7 @@
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="_images/s1-edge-fig-1.svg" alt="s1 edge fig 1">
+<img src="../../../rhde-microshift/1/ch3-image/_images/s1-edge-fig-1.svg" alt="s1 edge fig 1">
 </div>
 <div class="title">Figure 1. Tools and activities in a traditional edge device and application lifecycle</div>
 </div>
@@ -293,77 +305,78 @@
 <h2 id="_rhel_for_edge_image_workflow"><a class="anchor" href="#_rhel_for_edge_image_workflow"></a>RHEL for Edge Image Workflow</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In any case (shift left or not), there are benefits in building edge system images which include pre-configured MicroShift instances. You decide how much you will preconfigure, from offering an empty MicroShift instance, which is ready for remote access as a cluster administrator to offering a MicroShift, to offering a MicroShift instance with multiple workloads already deployed.</p>
+<p>In any case (shift left or not), there are benefits in building bootc container images which include pre-configured MicroShift instances. You decide how much you will preconfigure, from offering an empty MicroShift instance, which is ready for remote access as a cluster administrator to offering a MicroShift, to offering a MicroShift instance with multiple workloads already deployed.</p>
 </div>
 <div class="paragraph">
-<p>As a reminder, the following figure depicts the overall workflow for building system images and deploying them on edge devices, using RHEL for Edge.</p>
+<p>As a reminder, the following figure depicts the overall workflow for building bootc container images and deploying them on edge devices, using RHEL image mode.</p>
 </div>
 <div class="imageblock">
 <div class="content">
 <img src="_images/s1-edge-fig-3.svg" alt="s1 edge fig 3">
 </div>
-<div class="title">Figure 3. Workflow for building and deploying RHEL for Edge on edge devices</div>
+<div class="title">Figure 3. Workflow for building and deploying bootc container images on edge devices</div>
 </div>
 <div class="paragraph">
-<p>If your edge deployment is air-gapped, it is recommended that you use an edge installer image, which you can write to USB media or serve from a network boot server. If that image already embeds all your applications and configurations, it can provision devices without access to other network services, such as container image registries.</p>
+<p>If your edge deployment is air-gapped, it is recommended that you use an custon installation ISO, which you can write to USB media or serve from a network boot server. If that image already embeds all your applications and configurations, it can provision devices without access to other network services, such as container image registries.</p>
 </div>
 <div class="paragraph">
-<p>To build an edge installer image, you must first build an edge commit image, which contains an OSTree commit, and then store your edge commit image in an OSTree repository. That OSTree repository also provides system image updates for edge devices.</p>
+<p>To build an custom installation ISO, you must first build a bootc container image, using Podman or any tool capable of creating OCI container images, and them use the <strong>bootc image builder</strong> tool, which creates the installation ISO from a bootc contgainer image stored locally plus an image builder blueprint, which provides Kickstart instructions for installation time.</p>
 </div>
 <div class="paragraph">
-<p>If you need a refresher on the finer details or troubleshooting hints for managing the RHEL for Edge image Builder service, the RPM-OSTree tooling, and OSTree repositories, please review the <a href="https://redhatquickcourses.github.io/selinux-policies/">first of the Red Hat Device Edge course</a>.</p>
+<p>If you need a refresher on the finer details or troubleshooting hints for building bootc container iamges and using bootc image builder, please review the following RHEL labs:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.redhat.com/en/introduction-to-image-mode-for-red-hat-enterprise-linux-interactive-lab">Introduction to image mode for Red Hat Enterprise Linux</a></p>
+</li>
+<li>
+<p><a href="https://www.redhat.com/en/day-2-operations-with-image-mode-for-red-hat-enterprise-linux">Day 2 operations with image mode for Red Hat Enterprise Linux</a></p>
+</li>
+</ul>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_image_builder_and_private_container_registries"><a class="anchor" href="#_image_builder_and_private_container_registries"></a>Image Builder and Private Container Registries</h2>
+<h2 id="_air_gapped_builds_with_private_container_registries"><a class="anchor" href="#_air_gapped_builds_with_private_container_registries"></a>Air-Gapped Builds With Private Container Registries</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Most organizations do not allow edge devices to download content, especially software, from the Internet. They must download all content from secure internal servers. That means all software, such as RPM packages and container images, must be provided by  servers owned by your organization. This is commonly referred to as air-gapped operations.</p>
 </div>
 <div class="paragraph">
-<p>Most organizations place similar constraints on corporate servers and development systems, and you are probably required to configure the Image Builder server to fetch all software from internal servers instead of from the Internet, that is, to build system images while operating air-gapped.</p>
+<p>Most organizations place similar constraints on corporate servers and development systems, and you are probably required to configure your developer workstations and CI/CD servers to fetch all software from internal servers instead of from the Internet, that is, to build bootc container images while operating air-gapped.</p>
 </div>
 <div class="paragraph">
-<p>Notice that supporting air-gapped system image builds and air-gapped edge device provisioning present different constraints. The Image Builder service usually runs at a corporate site, with high speed and reliable access to package servers and container registries. Edge devices may not have good enough connectivity to those services and may consequently require that you include all artifacts in a system image.</p>
+<p>Notice that supporting air-gapped bootc container image builds and air-gapped edge device provisioning present different constraints. Developer workstations and CI/CD servers usually runs at a corporate site, with high speed and reliable access to package servers and container registries. Sometimes edge devices have good network connectivity to these corporate services, or they can rely on a local mirrors at their edge sites. But your edge devices may not have good enough connectivity to those services and may consequently require that you include all artifacts, including all application container images, in their booc container images.</p>
 </div>
 <div class="paragraph">
-<p>Most Linux system administrators are used to the process of configuring RPM package servers and package repository mirrors, either using supported software such as Red Hat Satellite or by configuring their own web servers. However many system administrators are not used to configure container image registries and container image mirrors.</p>
+<p>Most Linux system administrators are used to the process of configuring RPM package servers and package repository mirrors, either using supported software such as Red Hat Satellite or by configuring their own web servers and using the <code>rpmsync</code> command. However many system administrators are not used to configure container image registries and container image mirrors.</p>
 </div>
 <div class="paragraph">
-<p>The Image Builder service treats RPM packages and container images in different ways:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>It does <strong>NOT</strong> use the system&#8217;s DNF settings to access RPM repositories and requires its own configurations for accessing local package servers. That enables Image Builder to build system images for RHEL releases different than the one it&#8217;s running on.</p>
-</li>
-<li>
-<p>But it <strong>DOES</strong> use the system&#8217;s container engine settings for image policies, so you must configure the machine running the Image Builder service to access private registries and mirror registries serving container images from Red Hat and third-party vendors or for your applications developed in-house.</p>
-</li>
-</ul>
+<p>When you build OCI containers using Podman it takes subscription entitlements from the host system, so they can download RPM packages from Red Hat servers, but they do not inherit the DNF configuration from their host system to access corporate package repository servers. In that case, you must copy DNF repository configuration files to your OCI container image, before you include any <code>RUN</code> stamenent that installs RPM packages on your Containerfile.</p>
 </div>
 <div class="paragraph">
-<p>You configure Image Builder to access additional RPM package repositories using the Image Builder API, through either the <code>composer-cli</code> command or its Cockpit module. But you configure Image Builder to access RPM packages for RHEL packages by editing Image Builder configuration files, to create package source overrides.</p>
+<p>Similarly, you can copy registry configuration files for the local container engine, as part of your Containerfile, and them use those configurations to pull container images from corporate private container image registries.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_bound_containers"><a class="anchor" href="#_using_bound_containers"></a>Using Bound Containers</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>What RHEL image mode documentation call <strong>physically bound containers</strong> are just container image layers that are stored, as regular files, in a bootc container image. If you run your application containers directly from Podman, or using Quadlets, you can specificy the read-only directory storing those layers as an alternate container image storage for your containers.</p>
 </div>
 <div class="paragraph">
-<p>You configure Image Builder to access container registries by making edits to the container engine configuration files and to the Image Builder worker configuration files:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Edit files under <code>/etc/containers</code> to enable container image mirrors, signature verification, and TLS certificate validation.</p>
-</li>
-<li>
-<p>Edit files under <code>/etc/osbuild-worker/</code> to provide the Image Builder worker processes with credentials to access any container registry you need, including the Red Hat registries and your organization&#8217;s private registries.</p>
-</li>
-</ul>
+<p>Unfortunately Kubernetes pod cannot specify their own container storage. If all pods you run are already embedded in your boot container image, considering both pods required my MicroShift itself and also your application pods, you could theoretically configure CRI-O to use an alternate, read-only location for its container storage. That would prevent running additional pods, which are commonly required for troubleshooting, such as must-gather containers, unless you also add such containers to your bootc container image.</p>
 </div>
 <div class="paragraph">
-<p>When you change Image Builder configuration files, like you did in the first Red Hat Device Edge course for configuring RHEL package repository overrides, you must reboot the machine running the Image Builder service. You must do the same when changing Image Builder worker configuration files because all Image Builder processes only read their configuration files at start-up.</p>
+<p>It would theorically be possible to configure an alternate read-only container storage only for Kubernetes static pods, and thus include only MicroShift pods in your bootc container images, and pull application containers dynamically, from a remote container registry, to writable container storage. But that won&#8217;t work if any of your application containers share any layers with any of your static pods, which is quite common if all containers share base images and programming language runtimes from RHEL.</p>
 </div>
 <div class="paragraph">
-<p>You may find this reboot requirement unexpected. Why not just restart the Image Builder service, that is, the <code>osbuild-composer</code> service? Because Image Builder also runs a number of workers as their own Systemd units, named <code>osbuild-worker@&lt;number&gt;.service</code>. The number of active workers depends on the maximum number of composes running in parallel, since your last reboot. So, to restart Image Builder, you need to find out how many of such workers are active and stop all of them, one by one. So, rebooting is just easier.</p>
+<p>The recommended approach is copying container image layers from the read-only storage, embedded in your bootc container image, to the writable system container storage, at boot time. You can easily copy these container image layers with either a first-boot Systemd unit or a Systemd drop-in file for the MicroShift service unit.</p>
+</div>
+<div class="paragraph">
+<p>That approach gives you maximun flexbility: it gives you freedon to include just MicroShift container images, add selected applicaiton images, or even all container images you could possibly need for troubleshooting in your bootc container; and still pull new container iamges as you need, for additional troubleshooting tools or to test application updates, without having to build new bootc containers.</p>
 </div>
 </div>
 </div>
@@ -371,13 +384,13 @@
 <h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s Next</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>The next and final activity of this course shows an Image Builder blueprint that configures a MicroShift instance and embeds all required configuration files and container images, and builds the edge images from local RPM repositories and a mirror registry, without requiring access to Red Hat servers over the Internet.</p>
+<p>The next and final activity of this course shows a Containerfile which configures a MicroShift instance and embeds all required configuration files and container images, and builds an installer ISO with a custom kickstart file for unattended installation. At image build time, you use local RPM repositories and a mirror registry, without requiring access to Red Hat servers over the Internet, and then you provision an edge device from your installation ISO without acessing any RPM repository nor container registry server.</p>
 </div>
 </div>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="index.html">Deploy MicroShift on Edge Devices</a></span>
-  <span class="next"><a href="s2-image-lab.html">Lab: Create RHEL for Edge Images with MicroShift</a></span>
+  <span class="prev"><a href="index.html">Deploy MicroShift on RHEL Image Mode</a></span>
+  <span class="next"><a href="s2-image-lab.html">Lab: Create Bootc Container Images with MicroShift</a></span>
 </nav>
 </article>
   </div>

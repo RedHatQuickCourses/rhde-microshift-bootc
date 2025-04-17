@@ -3,9 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Deploy MicroShift on RHEL Servers :: Deploying MicroShift on RHEL Image Mode</title>
-    <link rel="prev" href="../ch1-microshift/s4-summary.html">
-    <link rel="next" href="s1-install-config.html">
+    <title>Summary :: Deploying MicroShift on RHEL Image Mode</title>
+    <link rel="prev" href="s2-image-lab.html">
     <meta name="generator" content="Antora 3.1.3">
     <link rel="stylesheet" href="../../../_/css/site.css">
     <script>var uiRootPath = '../../../_'</script>
@@ -68,24 +67,24 @@
   </li>
   <li class="nav-item" data-depth="0">
 <ul class="nav-list">
-  <li class="nav-item is-current-page" data-depth="1">
+  <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="index.html">Deploy MicroShift on RHEL Servers</a>
+    <a class="nav-link" href="../ch2-package/index.html">Deploy MicroShift on RHEL Servers</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="s1-install-config.html">Install and Configure MicroShift on Package-Based RHEL</a>
+    <a class="nav-link" href="../ch2-package/s1-install-config.html">Install and Configure MicroShift on Package-Based RHEL</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="s2-install-lab.html">Lab: Install MicroShift from RPM Packages</a>
+    <a class="nav-link" href="../ch2-package/s2-install-lab.html">Lab: Install MicroShift from RPM Packages</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="s3-access-lab.html">Lab: Access MicroShift as a Developer or Platform Engineer</a>
+    <a class="nav-link" href="../ch2-package/s3-access-lab.html">Lab: Access MicroShift as a Developer or Platform Engineer</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="s4-apps-lab.html">Lab: Deploy Kubernetes Applications in MicroShift</a>
+    <a class="nav-link" href="../ch2-package/s4-apps-lab.html">Lab: Deploy Kubernetes Applications in MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="s5-summary.html">Summary</a>
+    <a class="nav-link" href="../ch2-package/s5-summary.html">Summary</a>
   </li>
 </ul>
   </li>
@@ -95,16 +94,16 @@
 <ul class="nav-list">
   <li class="nav-item" data-depth="1">
     <button class="nav-item-toggle"></button>
-    <a class="nav-link" href="../ch3-image/index.html">Deploy MicroShift on RHEL Image Mode</a>
+    <a class="nav-link" href="index.html">Deploy MicroShift on RHEL Image Mode</a>
 <ul class="nav-list">
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch3-image/s1-microshift-bootc.html">RHEL Image Mode With MicroShift</a>
+    <a class="nav-link" href="s1-microshift-bootc.html">RHEL Image Mode With MicroShift</a>
   </li>
   <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch3-image/s2-image-lab.html">Lab: Create Bootc Container Images with MicroShift</a>
+    <a class="nav-link" href="s2-image-lab.html">Lab: Create Bootc Container Images with MicroShift</a>
   </li>
-  <li class="nav-item" data-depth="2">
-    <a class="nav-link" href="../ch3-image/s4-summary.html">Summary</a>
+  <li class="nav-item is-current-page" data-depth="2">
+    <a class="nav-link" href="s4-summary.html">Summary</a>
   </li>
 </ul>
   </li>
@@ -155,7 +154,8 @@
 <nav class="breadcrumbs" aria-label="breadcrumbs">
   <ul>
     <li><a href="../index.html">Deploying MicroShift on RHEL Image Mode</a></li>
-    <li><a href="index.html">Deploy MicroShift on RHEL Servers</a></li>
+    <li><a href="index.html">Deploy MicroShift on RHEL Image Mode</a></li>
+    <li><a href="s4-summary.html">Summary</a></li>
   </ul>
 </nav>
 </div>
@@ -164,17 +164,7 @@
   <div class="toc-menu"></div>
 </aside>
 <article class="doc">
-<h1 class="page">Deploy MicroShift on RHEL Servers</h1>
-<div id="preamble">
-<div class="sectionbody">
-<div class="dlist">
-<dl>
-<dt class="hdlist1">Goal</dt>
-<dd>
-<p>Install and configure MicroShift in package mode of Red Hat Enterprise Linux (RHEL).</p>
-</dd>
-</dl>
-</div>
+<h1 class="page">Summary</h1>
 <div class="admonitionblock warning">
 <table>
 <tr>
@@ -182,7 +172,7 @@
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-Work In Progress.
+Work In Progress
 </td>
 </tr>
 </table>
@@ -194,39 +184,35 @@ Work In Progress.
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Pending review of content that is specific to RHEL for Edge.
+Rewrite this as needed for image mode, may extract pieces to partials if they fit both RPM-OSTree and bootc
 </td>
 </tr>
 </table>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>Introduction</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p>This chapter explores the installation requirements and essential configuration settings of MicroShift, as supported by Red Hat build of MicroShift, with a focus on deployment in air-gapped environments.</p>
+<p>In this chapter, you learned:</p>
 </div>
-<div class="paragraph">
-<p>The hands-on activities cover installing and configuring MicroShift in a RHEL virtual machine (VM), ensuring it&#8217;s healthy, and configuring it for unprivileged developer access.</p>
-</div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-If you plan to deploy MicroShift as part of a RHEL image mode system, do <strong>NOT</strong> skip this chapter. You must understand the requirements and configurations introduced here to be able to automate them using Containerfiles and boot image builder. You also need the skills you learn here to troubleshoot your bootc container images that include MicroShift.
-</td>
-</tr>
-</table>
-</div>
-</div>
+<div class="ulist">
+<ul>
+<li>
+<p>RHEL for Edge supports preconfiguring MicroShift and Kubernetes applications at image build time and also supports deploying Kubernetes applications on day 2 using Kubernetes APIs.</p>
+</li>
+<li>
+<p>You must configure the Image Builder service to access your private or mirror registries by editing configuration files and rebooting the machine running Image Builder.</p>
+</li>
+<li>
+<p>Image Builder blueprint file customizations are suitable for small configuration files, and you can create custom RPM packages for larger and binary files.</p>
+</li>
+<li>
+<p>If you embed MicroShift and application container images in your edge images, by using blueprint customizations, you can provision edge devices and run edge applications without requiring any access to remote container registries.</p>
+</li>
+<li>
+<p>Once your edge device, running MicroShift, is provisioned, you can configure and access its MicroShift instance the same way you would do for package-based RHEL.</p>
+</li>
+</ul>
 </div>
 <nav class="pagination">
-  <span class="prev"><a href="../ch1-microshift/s4-summary.html">Summary</a></span>
-  <span class="next"><a href="s1-install-config.html">Install and Configure MicroShift on Package-Based RHEL</a></span>
+  <span class="prev"><a href="s2-image-lab.html">Lab: Create Bootc Container Images with MicroShift</a></span>
 </nav>
 </article>
   </div>

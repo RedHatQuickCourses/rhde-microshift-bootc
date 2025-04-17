@@ -76,11 +76,28 @@ servera.lab.example.com:8443/rhel9/bootc-image-builder
 
 .. Check that output from the previous command shows that the mirror registry is already populated with MicroShift release images (`openshift-release-dev/ocp-v4.0-art-dev`) and LVM Storage operator images (`lvms4/lvms-rhel9-operator`).
 
+.. Check that you have the CA certificate for the mirror registry on your home directory.
++
+[source,subs="verbatim,quotes"]
+--
+$ *ls quay-rootCA.pem*
+quay-rootCA.pem
+--
+
+.. Your user should already have, from previous labs, an authentication token to the mirror registry, but it won't hurt to get a new one:
++
+[source,subs="verbatim,quotes"]
+--
+$ *podman login -u microshift servera.lab.example.com:8443*
+password: *redhat123*
+Login Succeeded!
+--
+
 2. Configure the _development machine_ to use the mirror registry, so it can build bootc container images without internet access and without credentails to Red Hat container registries.
++
+You will also use these configuration files for the bootc container image you are about to build in this lab. These are the same files you might have already used in a xref:ch2-package:s2-install-lab[previous lab].
 
 .. Configure the container runtime to get MicroShift release images from the mirror registry.
-+
-NOTE: The registry configuration file is the same one you already used to configure MicroShift in a xref:ch2-package:s2-install-lab[previous lab].
 +
 [source,subs="verbatim,quotes"]
 --
@@ -338,7 +355,7 @@ b28ad90a8552d6b0009baf6c854bdcbc85650bfd28aed1ff18040697963cfd2
 +
 WARNING: If, by some reason, you meed to build your bootc container image again with small changes, we recommend that you add the `--no-cache` option to the `podman build` command above.
 
-.. Test the bootc container image as a regular container. Check for the presense of systemd units, their scripts, and container engine configuration files.
+.. Test your bootc container image as a regular container. Check for the presense of systemd units, their scripts, and container engine configuration files.
 +
 Many bootc container images are not designed to be run as regular container, and this is the case of bootc images including MicroShift, because they depend on the kernel, system services, and other configurations embeded into its bootc image that won't be available on the container host.
 +
@@ -361,12 +378,15 @@ $ *skopeo copy containers-storage:localhost/rhde/microshift-bootc-embedded:4.17 
 Writing manifest to image destination
 --
 
-.. Login to the mirror registry, using sudo, and pull your bootc container image to the system container storage, so it can be read by bootc image builder.
+.. Login again to the mirror registry, this time using sudo, and pull your bootc container image to the system container storage, so it can be read by bootc image builder.
++
+Beware it might prompt for your Linux user password (for `sudo`) before it prompts for the registry password.
 +
 [source,subs="verbatim,quotes"]
 --
 $ *sudo podman login -u microshift servera.lab.example.com:8443*
 password: *redhat123*
+Login Succeeded!
 $ *sudo podman pull servera.lab.example.com:8443/rhde/microshift-bootc-embedded:4.17*
 ...
 Writing manifest to image destination
@@ -477,12 +497,12 @@ Volume 'vda'(/home/student/.local/share/libvirt/images/edge-microshift-1.qcow2) 
 
 8. On your _edge machine_, verify that MicroShift is fully initialized.
 
-.. MicroShift will ony start after all its container images are copied to the system container storage, which takes a few moments. You may log in BEFORE this process finishes, and see that MicroShift is still initializing, and there are no kubeconfig files on the `core` user home dir:
+.. MicroShift will ony start after all its container images are copied to the system container storage, which takes a few moments. You may log in BEFORE this process finishes, and see that MicroShift is still initializing, and there are no kubeconfig files on the home directory of the `core` user.
 +
 [source,subs="verbatim,quotes"]
 --
-[core@ushift ~]$ *ls*
-[core@ushift ~]$ *sudo systemctl status microshift*
+$ *ls*
+$ *sudo systemctl status microshift*
 ● microshift.service - MicroShift
      Loaded: loaded (/usr/lib/systemd/system/microshift.service; enabled; preset: disabled)
     Drop-In: /usr/lib/systemd/system/microshift.service.d
@@ -501,6 +521,8 @@ Apr 16 20:11:49 ushift microshift[1926]: kube-controller-manager I0416 20:11:49.
 --
 +
 Notice, on the previous output, that the service is still activating, but already finished executing the `microshift-copy-images` script.
++
+If your output shows that the microshift service is already active, just move forward.
 
 .. If you wish, you can monitor the image copy process using Podman, because CRI-O shares the same system container storage with Podman. When the process is finished, you will see a full list of MicroShift container images and also application container images.
 +
@@ -508,7 +530,7 @@ IMPORTANT: You will NOT be able to see running containers from CRI-O using Podma
 +
 [source,subs="verbatim,quotes"]
 --
-[core@ushift ~]$ *sudo podman image list*
+$ *sudo podman image list*
 REPOSITORY                                      TAG         IMAGE ID      CREATED       SIZE
 servera.lab.example.com:8443/ubi9/ubi           latest      5786f8628d2b  4 months ago  235 MB
 quay.io/openshift-release-dev/ocp-v4.0-art-dev  <none>      b9eea29c1aa7  5 months ago  443 MB
@@ -527,7 +549,7 @@ registry.redhat.io/lvms4/lvms-rhel9-operator    <none>      2b9159626250  6 mont
 +
 [source,subs="verbatim,quotes"]
 --
-[core@ushift ~]$ *sudo systemctl status microshift*
+$ *sudo systemctl status microshift*
 ● microshift.service - MicroShift
      Loaded: loaded (/usr/lib/systemd/system/microshift.service; enabled; preset: disabled)
     Drop-In: /usr/lib/systemd/system/microshift.service.d
@@ -542,9 +564,9 @@ Notice, on the previous output, that the service is active.
 +
 [source,subs="verbatim,quotes"]
 --
-[core@ushift ~]$ *ls*
+$ *ls*
 local-admin  remote-admin
-[core@ushift ~]$ *echo $KUBECONFIG*
+$ *echo $KUBECONFIG*
 /var/home/core/local-admin
 --
 
@@ -582,6 +604,8 @@ pod "shell" deleted
 --
 +
 IMPORTANT: If you create a pod with the default image pull policy of `Always` it will fail because we stopped the mirror registry.
+
+.. You can now terminate the SSH session to your _edge machine_, if you wish.
 
 You succeed in provisioning an edge device, from an installable ISO, in an air-gapped environment: you only need the installation media to fully provision a ready-to-use RHEL image mode system running a MicroShift instance.
 

@@ -177,37 +177,25 @@ Work In Progress
 </tr>
 </table>
 </div>
-<div class="admonitionblock important">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-important" title="Important"></i>
-</td>
-<td class="content">
-Rewrite this as needed for image mode, may extract pieces to partials if they fit both RPM-OSTree and bootc
-</td>
-</tr>
-</table>
-</div>
 <div class="paragraph">
 <p>In this chapter, you learned:</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>RHEL for Edge supports preconfiguring MicroShift and Kubernetes applications at image build time and also supports deploying Kubernetes applications on day 2 using Kubernetes APIs.</p>
+<p>RHEL image mode supports preconfiguring MicroShift and Kubernetes applications at bootc conainer image build time and also supports deploying Kubernetes applications on day 2 using Kubernetes APIs.</p>
 </li>
 <li>
-<p>You must configure the Image Builder service to access your private or mirror registries by editing configuration files and rebooting the machine running Image Builder.</p>
+<p>You must configure your Containerfile to access your private or mirror registries by editing configuration files during the container image build process.</p>
 </li>
 <li>
-<p>Image Builder blueprint file customizations are suitable for small configuration files, and you can create custom RPM packages for larger and binary files.</p>
+<p>Containerfile ADD, COPY and RUN instructions are suitable for small configuration files, and you can create custom RPM packages for larger and binary files.</p>
 </li>
 <li>
-<p>If you embed MicroShift and application container images in your edge images, by using blueprint customizations, you can provision edge devices and run edge applications without requiring any access to remote container registries.</p>
+<p>If you embed MicroShift and application container images in your bootc container images, by using physically bound conainers, you can provision edge devices and run edge applications without requiring any access to remote container registries.</p>
 </li>
 <li>
-<p>Once your edge device, running MicroShift, is provisioned, you can configure and access its MicroShift instance the same way you would do for package-based RHEL.</p>
+<p>Once your edge device, running MicroShift, is provisioned, you can configure and access its MicroShift instance the same way you would do for RHEL package mode.</p>
 </li>
 </ul>
 </div>

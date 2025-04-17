@@ -294,27 +294,37 @@ servera.lab.example.com:8443/rhel9/bootc-image-builder</code></pre>
 <li>
 <p>Check that output from the previous command shows that the mirror registry is already populated with MicroShift release images (<code>openshift-release-dev/ocp-v4.0-art-dev</code>) and LVM Storage operator images (<code>lvms4/lvms-rhel9-operator</code>).</p>
 </li>
+<li>
+<p>Check that you have the CA certificate for the mirror registry on your home directory.</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>ls quay-rootCA.pem</strong>
+quay-rootCA.pem</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>Your user should already have, from previous labs, an authentication token to the mirror registry, but it won&#8217;t hurt to get a new one:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>podman login -u microshift servera.lab.example.com:8443</strong>
+password: <strong>redhat123</strong>
+Login Succeeded!</code></pre>
+</div>
+</div>
+</li>
 </ol>
 </div>
 </li>
 <li>
 <p>Configure the <em>development machine</em> to use the mirror registry, so it can build bootc container images without internet access and without credentails to Red Hat container registries.</p>
+<div class="paragraph">
+<p>You will also use these configuration files for the bootc container image you are about to build in this lab. These are the same files you might have already used in a <a href="#ch2-package:s2-install-lab">previous lab</a>.</p>
+</div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
 <p>Configure the container runtime to get MicroShift release images from the mirror registry.</p>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-The registry configuration file is the same one you already used to configure MicroShift in a <a href="#ch2-package:s2-install-lab">previous lab</a>.
-</td>
-</tr>
-</table>
-</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/999-microshift-mirror.conf</strong>
@@ -838,7 +848,7 @@ If, by some reason, you meed to build your bootc container image again with smal
 </div>
 </li>
 <li>
-<p>Test the bootc container image as a regular container. Check for the presense of systemd units, their scripts, and container engine configuration files.</p>
+<p>Test your bootc container image as a regular container. Check for the presense of systemd units, their scripts, and container engine configuration files.</p>
 <div class="paragraph">
 <p>Many bootc container images are not designed to be run as regular container, and this is the case of bootc images including MicroShift, because they depend on the kernel, system services, and other configurations embeded into its bootc image that won&#8217;t be available on the container host.</p>
 </div>
@@ -865,11 +875,15 @@ Writing manifest to image destination</code></pre>
 </div>
 </li>
 <li>
-<p>Login to the mirror registry, using sudo, and pull your bootc container image to the system container storage, so it can be read by bootc image builder.</p>
+<p>Login again to the mirror registry, this time using sudo, and pull your bootc container image to the system container storage, so it can be read by bootc image builder.</p>
+<div class="paragraph">
+<p>Beware it might prompt for your Linux user password (for <code>sudo</code>) before it prompts for the registry password.</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo podman login -u microshift servera.lab.example.com:8443</strong>
 password: <strong>redhat123</strong>
+Login Succeeded!
 $ <strong>sudo podman pull servera.lab.example.com:8443/rhde/microshift-bootc-embedded:4.17</strong>
 ...
 Writing manifest to image destination
@@ -1023,11 +1037,11 @@ Volume 'vda'(/home/student/.local/share/libvirt/images/edge-microshift-1.qcow2) 
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>MicroShift will ony start after all its container images are copied to the system container storage, which takes a few moments. You may log in BEFORE this process finishes, and see that MicroShift is still initializing, and there are no kubeconfig files on the <code>core</code> user home dir:</p>
+<p>MicroShift will ony start after all its container images are copied to the system container storage, which takes a few moments. You may log in BEFORE this process finishes, and see that MicroShift is still initializing, and there are no kubeconfig files on the home directory of the <code>core</code> user.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">[core@ushift ~]$ <strong>ls</strong>
-[core@ushift ~]$ <strong>sudo systemctl status microshift</strong>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>ls</strong>
+$ <strong>sudo systemctl status microshift</strong>
 ● microshift.service - MicroShift
      Loaded: loaded (/usr/lib/systemd/system/microshift.service; enabled; preset: disabled)
     Drop-In: /usr/lib/systemd/system/microshift.service.d
@@ -1048,6 +1062,9 @@ Apr 16 20:11:49 ushift microshift[1926]: kube-controller-manager I0416 20:11:49.
 <div class="paragraph">
 <p>Notice, on the previous output, that the service is still activating, but already finished executing the <code>microshift-copy-images</code> script.</p>
 </div>
+<div class="paragraph">
+<p>If your output shows that the microshift service is already active, just move forward.</p>
+</div>
 </li>
 <li>
 <p>If you wish, you can monitor the image copy process using Podman, because CRI-O shares the same system container storage with Podman. When the process is finished, you will see a full list of MicroShift container images and also application container images.</p>
@@ -1065,7 +1082,7 @@ You will NOT be able to see running containers from CRI-O using Podman, for that
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">[core@ushift ~]$ <strong>sudo podman image list</strong>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo podman image list</strong>
 REPOSITORY                                      TAG         IMAGE ID      CREATED       SIZE
 servera.lab.example.com:8443/ubi9/ubi           latest      5786f8628d2b  4 months ago  235 MB
 quay.io/openshift-release-dev/ocp-v4.0-art-dev  &lt;none&gt;      b9eea29c1aa7  5 months ago  443 MB
@@ -1085,7 +1102,7 @@ registry.redhat.io/lvms4/lvms-rhel9-operator    &lt;none&gt;      2b9159626250  
 <p>Wait until the MicroShift service reports as being active and healthy.</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">[core@ushift ~]$ <strong>sudo systemctl status microshift</strong>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo systemctl status microshift</strong>
 ● microshift.service - MicroShift
      Loaded: loaded (/usr/lib/systemd/system/microshift.service; enabled; preset: disabled)
     Drop-In: /usr/lib/systemd/system/microshift.service.d
@@ -1102,9 +1119,9 @@ registry.redhat.io/lvms4/lvms-rhel9-operator    &lt;none&gt;      2b9159626250  
 <p>Close your SSH session to your <em>edge machine</em> and reconnect, so your new SSH session gets the changes made to <code>~/.bashrc</code> by the first-boot service:</p>
 <div class="listingblock">
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">[core@ushift ~]$ <strong>ls</strong>
+<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>ls</strong>
 local-admin  remote-admin
-[core@ushift ~]$ <strong>echo $KUBECONFIG</strong>
+$ <strong>echo $KUBECONFIG</strong>
 /var/home/core/local-admin</code></pre>
 </div>
 </div>
@@ -1165,6 +1182,9 @@ If you create a pod with the default image pull policy of <code>Always</code> it
 </tr>
 </table>
 </div>
+</li>
+<li>
+<p>You can now terminate the SSH session to your <em>edge machine</em>, if you wish.</p>
 </li>
 </ol>
 </div>

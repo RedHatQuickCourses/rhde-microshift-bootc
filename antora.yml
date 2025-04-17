@@ -8,4 +8,5 @@ nav:
 - modules/ROOT/nav.adoc
 - modules/ch1-microshift/nav.adoc
 - modules/ch2-package/nav.adoc
-- modules/ch3-bootc/nav.adoc
+- modules/ch3-image/nav.adoc
+# Must keep the same module ids as rhde-microshift to allow variants of figure 2 in ch3

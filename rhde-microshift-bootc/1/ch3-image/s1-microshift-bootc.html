@@ -302,10 +302,10 @@ Work In Progress
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rhel_for_edge_image_workflow"><a class="anchor" href="#_rhel_for_edge_image_workflow"></a>RHEL for Edge Image Workflow</h2>
+<h2 id="_rhel_image_mode_image_building_and_deployment_workflow"><a class="anchor" href="#_rhel_image_mode_image_building_and_deployment_workflow"></a>RHEL Image Mode Image Building and Deployment Workflow</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In any case (shift left or not), there are benefits in building bootc container images which include pre-configured MicroShift instances. You decide how much you will preconfigure, from offering an empty MicroShift instance, which is ready for remote access as a cluster administrator to offering a MicroShift, to offering a MicroShift instance with multiple workloads already deployed.</p>
+<p>In any case (shift left or not), there are benefits in building bootc container images which include pre-configured MicroShift instances. You decide how much you will preconfigure, from offering an empty MicroShift instance, which is ready for remote access as a cluster administrator, to offering a MicroShift instance with multiple workloads already deployed.</p>
 </div>
 <div class="paragraph">
 <p>As a reminder, the following figure depicts the overall workflow for building bootc container images and deploying them on edge devices, using RHEL image mode.</p>
@@ -356,7 +356,7 @@ Work In Progress
 <p>When you build OCI containers using Podman it takes subscription entitlements from the host system, so they can download RPM packages from Red Hat servers, but they do not inherit the DNF configuration from their host system to access corporate package repository servers. In that case, you must copy DNF repository configuration files to your OCI container image, before you include any <code>RUN</code> stamenent that installs RPM packages on your Containerfile.</p>
 </div>
 <div class="paragraph">
-<p>Similarly, you can copy registry configuration files for the local container engine, as part of your Containerfile, and them use those configurations to pull container images from corporate private container image registries.</p>
+<p>Similarly, you can copy registry configuration files for the local container engine, as part of your Containerfile, and them use those configurations to pull container images from corporate image registry servers, during your container image build, and embbed those application container images inside a bootc container image.</p>
 </div>
 </div>
 </div>
@@ -373,10 +373,10 @@ Work In Progress
 <p>It would theorically be possible to configure an alternate read-only container storage only for Kubernetes static pods, and thus include only MicroShift pods in your bootc container images, and pull application containers dynamically, from a remote container registry, to writable container storage. But that won&#8217;t work if any of your application containers share any layers with any of your static pods, which is quite common if all containers share base images and programming language runtimes from RHEL.</p>
 </div>
 <div class="paragraph">
-<p>The recommended approach is copying container image layers from the read-only storage, embedded in your bootc container image, to the writable system container storage, at boot time. You can easily copy these container image layers with either a first-boot Systemd unit or a Systemd drop-in file for the MicroShift service unit.</p>
+<p>The recommended approach is copying container image layers from the read-only storage, embedded in your bootc container image, to the writable system container storage, at boot time. You perform this taks using either a first-boot Systemd unit or a Systemd drop-in file for the MicroShift service unit.</p>
 </div>
 <div class="paragraph">
-<p>That approach gives you maximun flexbility: it gives you freedon to include just MicroShift container images, add selected applicaiton images, or even all container images you could possibly need for troubleshooting in your bootc container; and still pull new container iamges as you need, for additional troubleshooting tools or to test application updates, without having to build new bootc containers.</p>
+<p>This approach enables maximun flexbility: it gives you freedon to include just MicroShift container images, add selected applicaiton images, or even all container images you could possibly need for troubleshooting in your bootc container, at day-0; and still keep the ability of pulling new container images on day-1 and day-2, for additional troubleshooting tools or to test application updates, without having to build new bootc container images.</p>
 </div>
 </div>
 </div>

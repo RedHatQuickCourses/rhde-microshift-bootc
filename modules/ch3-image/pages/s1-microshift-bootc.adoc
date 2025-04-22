@@ -1,4 +1,4 @@
-:time_estimate: 5
+:time_estimate: 12
 
 = RHEL Image Mode With MicroShift
 
@@ -27,42 +27,52 @@ As a reminder, the following figure depicts the overall workflow for building bo
 
 image::s1-edge-fig-3.svg[title="Workflow for building and deploying bootc container images on edge devices"]
 
-If your edge deployment is air-gapped, it is recommended that you use an custon installation ISO, which you can write to USB media or serve from a network boot server. If that image already embeds all your applications and configurations, it can provision devices without access to other network services, such as container image registries.
+If your edge deployment is air-gapped, it is recommended that you use an custom installation ISO, which you can write to USB media or serve from a network boot server. If that image already embeds all your applications and configurations, it can provision devices without access to other network services, such as container image registries.
 
-To build an custom installation ISO, you must first build a bootc container image, using Podman or any tool capable of creating OCI container images, and them use the *bootc image builder* tool, which creates the installation ISO from a bootc contgainer image stored locally plus an image builder blueprint, which provides Kickstart instructions for installation time.
+To build an custom installation ISO, you must first build a bootc container image, using Podman or any tool capable of creating OCI container images, and then use the *bootc image builder* tool, which creates the installation ISO from a bootc container image stored locally plus an image builder blueprint, which provides Kickstart instructions for installation time.
 
-If you need a refresher on the finer details or troubleshooting hints for building bootc container iamges and using bootc image builder, please review the following RHEL labs:
+If you need a refresher on the finer details or troubleshooting hints for building bootc container images and using bootc image builder, please review the following RHEL labs:
 
 * https://www.redhat.com/en/introduction-to-image-mode-for-red-hat-enterprise-linux-interactive-lab[Introduction to image mode for Red Hat Enterprise Linux]
 * https://www.redhat.com/en/day-2-operations-with-image-mode-for-red-hat-enterprise-linux[Day 2 operations with image mode for Red Hat Enterprise Linux]
 
 == Air-Gapped Builds With Private Container Registries
 
-Most organizations do not allow edge devices to download content, especially software, from the Internet. They must download all content from secure internal servers. That means all software, such as RPM packages and container images, must be provided by  servers owned by your organization. This is commonly referred to as air-gapped operations.
+Many organizations do not allow edge devices to download content, especially software, from the Internet. They must download all content from secure internal servers. That means all software, such as RPM packages and container images, must be provided by  servers owned by your organization. This is commonly referred to as air-gapped operations.
 
-Most organizations place similar constraints on corporate servers and development systems, and you are probably required to configure your developer workstations and CI/CD servers to fetch all software from internal servers instead of from the Internet, that is, to build bootc container images while operating air-gapped.
+Such organizations usually place similar constraints on corporate servers and development systems. You would be required to configure your developer workstations and CI/CD servers to fetch all software from internal servers instead of from the Internet, that is, to build bootc container images while operating air-gapped.
 
-Notice that supporting air-gapped bootc container image builds and air-gapped edge device provisioning present different constraints. Developer workstations and CI/CD servers usually runs at a corporate site, with high speed and reliable access to package servers and container registries. Sometimes edge devices have good network connectivity to these corporate services, or they can rely on a local mirrors at their edge sites. But your edge devices may not have good enough connectivity to those services and may consequently require that you include all artifacts, including all application container images, in their booc container images.
+Notice that supporting air-gapped bootc container image builds and air-gapped edge device provisioning present different caveats. Developer workstations and CI/CD servers usually runs at a corporate site, with high speed and reliable access to package servers and container registries. Sometimes edge devices have good network connectivity to these corporate services, or they can rely on a local mirrors at their edge sites. But your edge devices might not have good enough connectivity to those services and would consequently require that you include all artifacts, including all application container images, in their bootc container images.
 
 Most Linux system administrators are used to the process of configuring RPM package servers and package repository mirrors, either using supported software such as Red Hat Satellite or by configuring their own web servers and using the `rpmsync` command. However many system administrators are not used to configure container image registries and container image mirrors.
 
-When you build OCI containers using Podman it takes subscription entitlements from the host system, so they can download RPM packages from Red Hat servers, but they do not inherit the DNF configuration from their host system to access corporate package repository servers. In that case, you must copy DNF repository configuration files to your OCI container image, before you include any `RUN` stamenent that installs RPM packages on your Containerfile.
+When you build OCI containers using Podman it takes subscription entitlements from the host system, so they can download RPM packages from Red Hat servers, but they do not inherit the DNF configuration from their host system to access corporate package repository servers. In that case, you must copy DNF repository configuration files to your OCI container image, before you include any `RUN` statement that installs RPM packages on your containerfile.
 
-Similarly, you can copy registry configuration files for the local container engine, as part of your Containerfile, and them use those configurations to pull container images from corporate image registry servers, during your container image build, and embbed those application container images inside a bootc container image.
+Similarly, you can copy registry configuration files for the local container engine, as part of your containerfile, and them use those configurations to pull container images from corporate image registry servers, during your container image build, and embed those application container images inside a bootc container image.
 
-== Using Bound Containers
+== Using Physically Bound Containers
 
-What RHEL image mode documentation call *physically bound containers* are just container image layers that are stored, as regular files, in a bootc container image. If you run your application containers directly from Podman, or using Quadlets, you can specificy the read-only directory storing those layers as an alternate container image storage for your containers.
+What RHEL image mode documentation call *physically bound containers* are just container image layers that are stored, as regular files, in a bootc container image.
 
-Unfortunately Kubernetes pod cannot specify their own container storage. If all pods you run are already embedded in your boot container image, considering both pods required my MicroShift itself and also your application pods, you could theoretically configure CRI-O to use an alternate, read-only location for its container storage. That would prevent running additional pods, which are commonly required for troubleshooting, such as must-gather containers, unless you also add such containers to your bootc container image.
+If you run your application containers directly from Podman, or using Quadlets, you can specify the read-only directory storing those layers as an alternate container image storage for your containers. Unfortunately Kubernetes pod cannot specify their own container storage.
 
-It would theorically be possible to configure an alternate read-only container storage only for Kubernetes static pods, and thus include only MicroShift pods in your bootc container images, and pull application containers dynamically, from a remote container registry, to writable container storage. But that won't work if any of your application containers share any layers with any of your static pods, which is quite common if all containers share base images and programming language runtimes from RHEL.
+If all pods you run would be embedded in your boot container image, considering both pods required my MicroShift itself and also your application pods, you could theoretically configure CRI-O to use an alternate, read-only location for its container storage. That would prevent running additional pods, which are commonly required for troubleshooting, such as must-gather containers, unless you also add such containers to your bootc container image.
 
-The recommended approach is copying container image layers from the read-only storage, embedded in your bootc container image, to the writable system container storage, at boot time. You perform this taks using either a first-boot Systemd unit or a Systemd drop-in file for the MicroShift service unit.
+It would theoretically be possible to configure an alternate read-only container storage only for Kubernetes static pods, and thus include only MicroShift pods in your bootc container images, but pull application containers dynamically, from a remote container registry, to writable container storage. That won't work if any of your application containers share any layers with any of your static pods, which is quite common when containers share base images and programming language runtimes from RHEL.
 
-This approach enables maximun flexbility: it gives you freedon to include just MicroShift container images, add selected applicaiton images, or even all container images you could possibly need for troubleshooting in your bootc container, at day-0; and still keep the ability of pulling new container images on day-1 and day-2, for additional troubleshooting tools or to test application updates, without having to build new bootc container images.
+Using additional (or alternate) container storage for containers also presents issues regarding system updates: you must ensure you destroy old containers and start new containers, to prevent any dangling references to outdated image layers that would not exist in the new system image anymore. MicroShift, as any other Kubernetes, would not recreate application pods (and their containers) on reboot and updates.
+
+The recommended approach, to avoid any issues with physically bound containers, is a two-step process:
+
+1. Copy container image layers to your bootc container image, at build time. Notice this is NOT a pull operation, because you don't want to save those layers to the ephemeral container storage of your image build.
+
+2. Copy your container image layers from the read-only system image to the writable system container storage, at boot time, so they look like layers that are already pulled when you start containers using them.
+
+The first step becomes an `skopeo copy` command in your containerfile. The second step becomes either a first-boot Systemd unit or a Systemd drop-in file for the MicroShift service unit, any of which you create as part of your containerfile.
+
+This approach enables maximum flexibility: it gives you freedom to include just MicroShift container images, add selected application images, or even all container images you could possibly need for troubleshooting in your bootc container, at day-0; and still keep the ability of pulling new container images on day-1 and day-2, for additional troubleshooting tools or to test application updates, without having to build new bootc container images.
 
 == What's Next
 
-The next and final activity of this course shows a Containerfile which configures a MicroShift instance and embeds all required configuration files and container images, and builds an installer ISO with a custom kickstart file for unattended installation. At image build time, you use local RPM repositories and a mirror registry, without requiring access to Red Hat servers over the Internet, and then you provision an edge device from your installation ISO without acessing any RPM repository nor container registry server.
+The next and final activity of this course shows a containerfile which configures a MicroShift instance and embeds all required configuration files and container images, and builds an installer ISO with a custom kickstart file for unattended installation. At image build time, you use local RPM repositories and a mirror registry, without requiring access to Red Hat servers over the Internet, and then you provision an edge device from your installation ISO without accessing any RPM repository nor container registry server.
 

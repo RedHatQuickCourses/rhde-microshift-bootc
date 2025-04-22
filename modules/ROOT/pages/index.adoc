@@ -85,6 +85,8 @@ It is not expected that you need to use the https://microshift.io/[open source u
 Training Content Architect +
 Red Hat - Product Portfolio Marketing & Learning
 
+Special thanks to Ben Breard, Daniel Froehlich, Gregory Giguashvili, and Valentin Rothberg for all their support while writing this course.
+
 //Special thanks to Gregory Giguashvili and Vladislav Walek for all their support while writing this course and testing its hands-on activities.
 
 //Many thanks to Daniel Froehlich for his support in reviewing the course design, its outline, work-in-progress contents, and answering my newbie questions, and also to Eric Lavarde for reviews and feedback during course development.

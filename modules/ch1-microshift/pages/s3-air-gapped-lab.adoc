@@ -40,9 +40,48 @@ include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-registry.adoc[
 
 5. Populate the mirror registry with container images for RHEL image mode.
 
-.. TBD
+.. Download the bootc images from RHEL.
++
+[source,subs="verbatim,quotes"]
+--
+$ *wget -q http://content.example.com/rhde/oci/bootc-containers.tar.gz*
+$ *tar xzf bootc-containers.tar.gz*
+$ *ls bootc-containers*
+rhel9
+$ *ls bootc-containers/rhel9/*
+bootc-image-builder:9.5  rhel-bootc:9.5
+--
 
-.. Also TBD
+.. Download the bootc images upload script. It is very similar to the application images upload script.
+
++
+[source,subs="verbatim,quotes"]
+--
+$ *wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/sh/upload-bootc.sh*
+--
+
+.. Run the application images upload script. Check carefully that its output does not indicate any errors.
+
++
+[source,subs="verbatim,quotes"]
+--
+$ *sh upload-bootc.sh*
+--
+
+.. You can check that the upload process worked by listing all images in the mirror registry.
++
+[source,subs="verbatim,quotes"]
+--
+$ *podman search servera.lab.example.com:8443/*
+NAME                                                                 DESCRIPTION
+servera.lab.example.com:8443/lvms4/lvms-rhel9-operator               
+servera.lab.example.com:8443/openshift-release-dev/ocp-v4.0-art-dev  
+servera.lab.example.com:8443/flozanorht/php-ubi                      
+servera.lab.example.com:8443/rhel9/mysql-80                          
+servera.lab.example.com:8443/ubi9/ubi                                
+servera.lab.example.com:8443/rhel9/rhel-bootc                        
+servera.lab.example.com:8443/rhel9/bootc-image-builder 
+--
 
 include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-dnf.adoc[]
 

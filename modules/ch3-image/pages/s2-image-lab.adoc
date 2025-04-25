@@ -591,7 +591,7 @@ openshift-storage          lvms-operator-7f544467bc-94227             1/1     Ru
 openshift-storage          vg-manager-5n494                           1/1     Running   0          3m55s
 --
 +
-NOTE: If you are too quick, you may get a `NotReady` state from `oc get node`, or a "no resources found" error from `oc get pod`. If any of this happens, just wait a few seconds and try again.
+NOTE: If you are too quick, and skip the previous steps of checking the MicroShift system service status, you may get a `NotReady` state from `oc get node`, or a "no resources found" error from `oc get pod`. If any of this happens, just wait a few seconds and try again.
 
 .. As a final check, create a test pod from the sample application image we included in the bootc container image.
 +

@@ -10,13 +10,9 @@ Design docs from the RHEL for Edge variant are available to Red Hat employees on
 
 * [Initial course design](https://docs.google.com/document/d/1zPUVBdbdlMEUlMmlsnDLiIjOtUMPBXYe3b2TO_Xhl6M/edit?usp=sharing)
 
-// Not sure about exposing the internal URL to GitHub repo.
-
 Figures on this course are designed using Google Slides, and the deck is available to Red Hat employees. Individual slides are exported to SVG files and cleaned using Inkscape. Those files are in the git repository.
 
 * [Figures](https://docs.google.com/presentation/d/1VBZdZyuWiSyoq1HE6eVxgSEo2_Qc4EOM0_Fkd_uQ_zA/edit?usp=sharing)
-
-// Not sure about exposing the internal URL to GitHub repo.
 
 Refer to the [Red Hat Quick Courses Contributor Guide](https://redhatquickcourses.github.io/welcome/1/guide/overview.html) for instructions about collaborating in this repository.
 

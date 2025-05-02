@@ -22,7 +22,7 @@ You need a few machines to perform the hands-on activities in this course.
 
 * A _web server machine_ with RHEL and unrestricted `sudo`, to share files such as public keys.
 
-* A _mirror registry machine_ with RHEL and unrestricted `sudo`, to host a https://www.redhat.com/en/blog/introducing-mirror-registry-for-red-hat-openshift[mirror registry for Red Hat OpenShift,window=_blank].
+* A _mirror registry machine_ with RHEL and unrestricted `sudo`, to host a https://www.redhat.com/en/blog/introducing-mirror-registry-for-red-hat-openshift[mirror registry for Red Hat OpenShift^].
 
 These instructions were tested on RHEL 9.5 but should work with minimal or no change on newer and older RHEL 9.x releases.
 
@@ -35,7 +35,7 @@ If a step is not explicit about the machine it should be performed, it is using 
 
 In the course environment, the `classroom` VM, with the `materials` alias, is your _package server machine_ but you are _not_ expected to start SSH sessions nor perform any activity on it.
 
-NOTE: It should be possible to perform all activities in this course using a https://developers.redhat.com/products/rhel/download[free Red Hat Developers free subscrition,window=_blank], which gives you access to installation media, RPM packages, and container images for RHEL and Red Hat OpenShift.
+NOTE: It should be possible to perform all activities in this course using a https://developers.redhat.com/products/rhel/download[free Red Hat Developers free subscrition^], which gives you access to installation media, RPM packages, and container images for RHEL and Red Hat OpenShift.
 If you ignore the requirements for air-gaped installation of MicroShift, you could use a single RHEL VM and adapt the steps to your own environment.
 
 == Instructions

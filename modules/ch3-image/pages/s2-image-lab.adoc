@@ -108,7 +108,7 @@ $ *wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-sampl
 $ *sudo cp 999-microshift-mirror.conf /etc/containers/registries.conf.d*
 --
 
-.. Disable signature verification on container images required by MicroShift by downloading a https://github.com/RedHatQuickCourses/rhde-build-samples/blob/main/microshift/containers-policy.json.nosigs[container image policy file,window=_blank] from the course samples git repository.
+.. Disable signature verification on container images required by MicroShift by downloading a https://github.com/RedHatQuickCourses/rhde-build-samples/blob/main/microshift/containers-policy.json.nosigs[container image policy file^] from the course samples git repository.
 +
 [source,subs="verbatim,quotes"]
 --
@@ -119,7 +119,7 @@ $ *sudo cp containers-policy.json.nosigs /etc/containers/policy.json*
 3. Download and inspect a containerfile for a preconfigured MicroShift instance.
 This container file requires the files downloaded during the previous step, and a few more files you will download right now.
 
-.. Download the https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-embedded[sample containerfile,window=_blank] from the course samples git repository.
+.. Download the https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-embedded[sample containerfile^] from the course samples git repository.
 It is a long Containerfile but, assuming that you performed all activities from the the xref:ch2-package[previous chapter] of this course, there should be no surprises.
 +
 [source,subs="verbatim,quotes"]
@@ -143,7 +143,7 @@ include::1@samples:microshift:example$Containerfile-embedded[lines=5]
 --
 +
 WARNING: This containerfile uses RHEL 9.5, which is NOT a supported version for MicroShift 4.17.
-Review the https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/device-edge-overview#device-edge-compatibility_device-edge-overview[Red Hat Device Edge product documentation,window=_blank] for the supported combinations of RHEL and MicroShift releases. It may be necessary to use an EUS version of RHEL base bootc container images and package repositories to get the latest RHEL security and bug fixes.
+Review the https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/device-edge-overview#device-edge-compatibility_device-edge-overview[Red Hat Device Edge product documentation^] for the supported combinations of RHEL and MicroShift releases. It may be necessary to use an EUS version of RHEL base bootc container images and package repositories to get the latest RHEL security and bug fixes.
 +
 IMPORTANT: Different RHEL releases are expected to work most of the times, but if you have issues and create support tickets, you may be asked to reproduce the issue using a supported version of RHEL.
 
@@ -215,7 +215,7 @@ include::1@samples:microshift:example$Containerfile-embedded[lines=56..57]
 ... Embed the MicroShift release container images in the system image and also container images for the applications pods that will run on that MicroShift cluster.
 +
 A copy of image Red Hat Universal Base Image (UBI) `registry.redhat.io/ubi9/ubi:latest` in the mirror registry at `servera.lab.example.com:8443` stands in for an application image.
-You can add more application images to the `appimage` shell variable, if you wish, and also add https://docs.redhat.com/it/documentation/red_hat_build_of_microshift/4.17/html-single/running_applications/index#microshift-manifests-overview_applications-microshift[Kustomize manifests,window=_blank] to directories such as `/usr/lib/microshift/` on your bootc container image.
+You can add more application images to the `appimage` shell variable, if you wish, and also add https://docs.redhat.com/it/documentation/red_hat_build_of_microshift/4.17/html-single/running_applications/index#microshift-manifests-overview_applications-microshift[Kustomize manifests^] to directories such as `/usr/lib/microshift/` on your bootc container image.
 +
 [source,subs="verbatim"]
 --
@@ -260,7 +260,7 @@ $ *wget -qP yum.d https://raw.githubusercontent.com/RedHatQuickCourses/rhde-buil
 This blueprint contains only kickstart file customizations that, among other things, provide secrets for SSH and mirror registry access.
 Alternatively, such secrets could be provided after installation, by an onboarding process, managed by Ansible or other automation technology.
 
-.. Download the https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/config.toml[sample installer blueprint,window=_blank] from the course samples git repository. It basically contains a customized kickstart file.
+.. Download the https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/config.toml[sample installer blueprint^] from the course samples git repository. It basically contains a customized kickstart file.
 +
 [source,subs="verbatim,quotes"]
 --

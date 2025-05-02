@@ -36,14 +36,14 @@ To build an custom installation ISO, you must first build a bootc container imag
 
 If you need a refresher on the finer details or troubleshooting hints for building bootc container images and using bootc image builder, please review the following RHEL labs:
 
-* https://www.redhat.com/en/introduction-to-image-mode-for-red-hat-enterprise-linux-interactive-lab[Introduction to image mode for Red Hat Enterprise Linux,window=_blank]
-* https://www.redhat.com/en/day-2-operations-with-image-mode-for-red-hat-enterprise-linux[Day 2 operations with image mode for Red Hat Enterprise Linux,window=_blank]
+* https://www.redhat.com/en/introduction-to-image-mode-for-red-hat-enterprise-linux-interactive-lab[Introduction to image mode for Red Hat Enterprise Linux^]
+* https://www.redhat.com/en/day-2-operations-with-image-mode-for-red-hat-enterprise-linux[Day 2 operations with image mode for Red Hat Enterprise Linux^]
 
 == Air-Gapped Builds With Private Container Registries
 
 Many organizations do not allow edge devices to download content, especially software, from the Internet.
 They must download all content from secure internal servers.
-That means all software, such as RPM packages and container images, must be provided by  servers owned by your organization.
+That means all software, such as RPM packages and container images, must be provided by servers owned by your organization.
 This is commonly referred to as air-gapped operations.
 
 Such organizations usually place similar constraints on corporate servers and development systems.

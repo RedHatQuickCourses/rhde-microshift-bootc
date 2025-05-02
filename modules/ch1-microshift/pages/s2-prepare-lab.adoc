@@ -14,7 +14,7 @@ WARNING: Pending Review
 
 // Minimally changed from rhde-microshift to remove references to ostree
 
-You need a few machines to perform the hands-on activities in this course. 
+You need a few machines to perform the hands-on activities in this course.
 
 * A _development machine_ with RHEL and unrestricted `sudo`, where you will create test VMs using Libvirt, and also run the OpenShift client to access your MicroShift instances in other machines.
 
@@ -24,17 +24,21 @@ You need a few machines to perform the hands-on activities in this course.
 
 * A _web server machine_ with RHEL and unrestricted `sudo`, to share files such as public keys.
 
-* A _mirror registry machine_ with RHEL and unrestricted `sudo`, to host a https://www.redhat.com/en/blog/introducing-mirror-registry-for-red-hat-openshift[mirror registry for Red Hat OpenShift].
+* A _mirror registry machine_ with RHEL and unrestricted `sudo`, to host a https://www.redhat.com/en/blog/introducing-mirror-registry-for-red-hat-openshift[mirror registry for Red Hat OpenShift,window=_blank].
 
 These instructions were tested on RHEL 9.5 but should work with minimal or no change on newer and older RHEL 9.x releases.
 
-If you are using the course environment, you will log in to the `workstation` VM as the user `student` with password `student`. The `workstation` VM is your _development machine_. You will start SSH sessions from the `workstation` VM to the `servera` VM, which is your _web server machine_ and also your _mirror registry machine_, using the same user.
+If you are using the course environment, you will log in to the `workstation` VM as the user `student` with password `student`.
+The `workstation` VM is your _development machine_.
+You will start SSH sessions from the `workstation` VM to the `servera` VM, which is your _web server machine_ and also your _mirror registry machine_, using the same user.
 
-IMPORTANT: Be sure you execute each step on the correct machine. If a step is not explicit about the machine it should be performed, it is using the same machine as its previous step.
+IMPORTANT: Be sure you execute each step on the correct machine.
+If a step is not explicit about the machine it should be performed, it is using the same machine as its previous step.
 
 In the course environment, the `classroom` VM, with the `materials` alias, is your _package server machine_ but you are _not_ expected to start SSH sessions nor perform any activity on it.
 
-NOTE: It should be possible to perform all activities in this course using a https://developers.redhat.com/products/rhel/download[free Red Hat Developers free subscription], which gives you access to installation media, RPM packages, and container images for RHEL and Red Hat OpenShift. If you ignore the requirements for air-gaped installation of MicroShift, you could use a single RHEL VM and adapt the steps to your own environment.
+NOTE: It should be possible to perform all activities in this course using a https://developers.redhat.com/products/rhel/download[free Red Hat Developers free subscription,window=_blank], which gives you access to installation media, RPM packages, and container images for RHEL and Red Hat OpenShift.
+If you ignore the requirements for air-gaped installation of MicroShift, you could use a single RHEL VM and adapt the steps to your own environment.
 
 == Instructions
 
@@ -44,7 +48,7 @@ include::rhde-microshift:ch1-microshift:partial$s2-prepare-lab-libvirt.adoc[]
 
 include::rhde-microshift:ch1-microshift:partial$s2-prepare-lab-apache.adoc[]
 
-You now have your _development machine_ ready to test bootc containers using Libvirt VMs, and your _web server machine_ ready to store and distribute files for your edge devices. 
+You now have your _development machine_ ready to test bootc containers using Libvirt VMs, and your _web server machine_ ready to store and distribute files for your edge devices.
 
 == What's Next
 

@@ -11,4 +11,5 @@ This chapter explores the requirements for building and deploying bootc containe
 
 The hands-on activities also build an installation ISO for disconnected environment.
 
-IMPORTANT: Most details about installing and configuring MicroShift are explained in the xref:ch2-package[previous chapter]. While you could perform all hands-on activities here without doing the previous chapter, you may lack essential concepts and troubleshooting guidance for managing MicroShift instances.
+IMPORTANT: Most details about installing and configuring MicroShift are explained in the xref:ch2-package[previous chapter].
+While you could perform all hands-on activities here without doing the previous chapter, you may lack essential concepts and troubleshooting guidance for managing MicroShift instances.

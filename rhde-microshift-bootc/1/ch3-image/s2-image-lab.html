@@ -222,7 +222,9 @@ Work In Progress
 <p>These instructions were tested on RHEL 9.5 but should work with minimal or no change on newer and older RHEL 9.x releases.</p>
 </div>
 <div class="paragraph">
-<p>If you are using the course environment, you will log in to the <code>workstation</code> VM as the user <code>student</code> with password <code>student</code>. The <code>workstation</code> VM is your <em>development machine</em>. You will start SSH sessions from the <code>workstation</code> VM to the <code>servera</code> VM, which is your <em>web server machine</em> and also your <em>mirror registry machine</em>, using the same user.</p>
+<p>If you are using the course environment, you will log in to the <code>workstation</code> VM as the user <code>student</code> with password <code>student</code>.
+The <code>workstation</code> VM is your <em>development machine</em>.
+You will start SSH sessions from the <code>workstation</code> VM to the <code>servera</code> VM, which is your <em>web server machine</em> and also your <em>mirror registry machine</em>, using the same user.</p>
 </div>
 <div class="paragraph">
 <p>You will also create a local KVM virtual machine on your <em>development machine</em>, and we refer to that VM as your <em>edge machine</em>.</p>
@@ -251,7 +253,7 @@ Be sure you execute each step on the correct machine. If a step is not explicit 
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Check that you can access your <em>web server machine</em>.</p>
+<p>Verify that you can access your <em>web server machine</em>.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>curl -s http://servera.lab.example.com | head -n 5</strong>
@@ -264,7 +266,7 @@ Be sure you execute each step on the correct machine. If a step is not explicit 
 </div>
 </li>
 <li>
-<p>Check that your unprivileged user has access to Libvirt session VMs.</p>
+<p>Verify that your unprivileged user has access to Libvirt session VMs.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>virsh uri</strong>
@@ -276,7 +278,7 @@ CPU model:           x86_64
 </div>
 </li>
 <li>
-<p>Check that you have a valid pull secret for your your <em>mirror registry machine</em> and that you can access it with TLS validation enabled.</p>
+<p>Verify that you have a valid pull secret for your your <em>mirror registry machine</em> and that you can access it with TLS validation enabled.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>podman search --authfile mirror-pull-secret servera.lab.example.com:8443/</strong>
@@ -292,10 +294,10 @@ servera.lab.example.com:8443/rhel9/bootc-image-builder</code></pre>
 </div>
 </li>
 <li>
-<p>Check that output from the previous command shows that the mirror registry is already populated with MicroShift release images (<code>openshift-release-dev/ocp-v4.0-art-dev</code>) and LVM Storage operator images (<code>lvms4/lvms-rhel9-operator</code>).</p>
+<p>Review that output from the previous command shows that the mirror registry is already populated with MicroShift release images (<code>openshift-release-dev/ocp-v4.0-art-dev</code>) and LVM Storage operator images (<code>lvms4/lvms-rhel9-operator</code>).</p>
 </li>
 <li>
-<p>Check that you have the CA certificate for the mirror registry on your home directory.</p>
+<p>Verify that you have the CA certificate for the mirror registry on your home directory.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>ls quay-rootCA.pem</strong>
@@ -319,7 +321,8 @@ Login Succeeded!</code></pre>
 <li>
 <p>Configure the <em>development machine</em> to use the mirror registry, so it can build bootc container images without internet access and without credentails to Red Hat container registries.</p>
 <div class="paragraph">
-<p>You will also use these configuration files for the bootc container image you are about to build in this lab. These are the same files you might have already used in a <a href="#ch2-package:s2-install-lab">previous lab</a>.</p>
+<p>You will also use these configuration files for the bootc container image you are about to build in this lab.
+These are the same files you might have already used in a <a href="#ch2-package:s2-install-lab">previous lab</a>.</p>
 </div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
@@ -333,7 +336,7 @@ $ <strong>sudo cp 999-microshift-mirror.conf /etc/containers/registries.conf.d</
 </div>
 </li>
 <li>
-<p>Disable signature verification on container images required by MicroShift by downloading a <a href="https://github.com/RedHatQuickCourses/rhde-build-samples/blob/main/microshift/containers-policy.json.nosigs">container image policy file</a> from the course samples git repository.</p>
+<p>Disable signature verification on container images required by MicroShift by downloading a <a href="https://github.com/RedHatQuickCourses/rhde-build-samples/blob/main/microshift/containers-policy.json.nosigs" target="_blank" rel="noopener">container image policy file</a> from the course samples git repository.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/containers-policy.json.nosigs</strong>
@@ -345,11 +348,13 @@ $ <strong>sudo cp containers-policy.json.nosigs /etc/containers/policy.json</str
 </div>
 </li>
 <li>
-<p>Download and inspect a containerfile for a preconfigured MicroShift instance. That container file requires the files downloaded during the previous step, and a few more files you will download right now.</p>
+<p>Download and inspect a containerfile for a preconfigured MicroShift instance.
+This container file requires the files downloaded during the previous step, and a few more files you will download right now.</p>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Download the <a href="https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-embedded">sample containerfile</a> from the course samples git repository. It is a long Containerfile but, assuming that you performed all activities from the the <a href="#ch2-package">previous chapter</a> of this course, there should be no surprises.</p>
+<p>Download the <a href="https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-embedded" target="_blank" rel="noopener">sample containerfile</a> from the course samples git repository.
+It is a long Containerfile but, assuming that you performed all activities from the the <a href="#ch2-package">previous chapter</a> of this course, there should be no surprises.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/Containerfile-embedded</strong></code></pre>
@@ -357,7 +362,8 @@ $ <strong>sudo cp containers-policy.json.nosigs /etc/containers/policy.json</str
 </div>
 </li>
 <li>
-<p>Review the <code>Containerfile-embedded</code> file and make sure you understand its instructions. It contains many <code>RUN</code> instructions with shell heredocs to minize the number of layers and for increased legibility.</p>
+<p>Review the <code>Containerfile-embedded</code> file and make sure you understand its instructions.
+It contains many <code>RUN</code> instructions with shell heredocs to minize the number of layers and for increased legibility.</p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -365,7 +371,8 @@ $ <strong>sudo cp containers-policy.json.nosigs /etc/containers/policy.json</str
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The code snippets here help you locate the relevant sections in the Containerfile, but they do not list the entirety of most sections. Follow along with a text editor and navigate through the blueprint file.
+The code snippets here help you locate the relevant sections in the Containerfile, but they do not list the entirety of most sections.
+Follow along with a text editor and navigate through the blueprint file.
 </td>
 </tr>
 </table>
@@ -388,7 +395,8 @@ FROM servera.lab.example.com:8443/rhel9/rhel-bootc:9.5
 <i class="fa icon-warning" title="Warning"></i>
 </td>
 <td class="content">
-This containerfile uses RHEL 9.5, which is NOT a supported version for MicroShift 4.17. Check the <a href="https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/device-edge-overview#device-edge-compatibility_device-edge-overview">Red Hat Device Edge product documentation</a> for the supported combinations of RHEL and MicroShift releases. It may be necessary to use an EUS version of RHEL base bootc container images and package repositories to get the latest RHEL security and bug fixes.
+This containerfile uses RHEL 9.5, which is NOT a supported version for MicroShift 4.17.
+Review the <a href="https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/device-edge-overview#device-edge-compatibility_device-edge-overview" target="_blank" rel="noopener">Red Hat Device Edge product documentation</a> for the supported combinations of RHEL and MicroShift releases. It may be necessary to use an EUS version of RHEL base bootc container images and package repositories to get the latest RHEL security and bug fixes.
 </td>
 </tr>
 </table>
@@ -417,7 +425,8 @@ COPY yum.d/* /etc/yum.repos.d/
 </div>
 </li>
 <li>
-<p>Install the MicroShift packages and dependencies. You need the optional <code>microshift-release-info</code> package because it provides the list of MicroShift container images to embed in the bootc container image.</p>
+<p>Install the MicroShift packages and dependencies.
+You need the optional <code>microshift-release-info</code> package because it provides the list of MicroShift container images to embed in the bootc container image.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">...
@@ -499,7 +508,8 @@ ADD containers-policy.json.nosigs /etc/containers/policy.json
 </div>
 </li>
 <li>
-<p>Add a CA certificate for the mirror registry. Remember that you download that CA file in the <a href="../ch1-microshift/s3-air-gapped-lab.html" class="xref page">first chapter</a>.</p>
+<p>Add a CA certificate for the mirror registry.
+Remember that you download that CA file in the <a href="../ch1-microshift/s3-air-gapped-lab.html" class="xref page">first chapter</a>.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">...
@@ -512,7 +522,8 @@ RUN update-ca-trust
 <li>
 <p>Embed the MicroShift release container images in the system image and also container images for the applications pods that will run on that MicroShift cluster.</p>
 <div class="paragraph">
-<p>A copy of image Red Hat Universal Base Image (UBI) <code>registry.redhat.io/ubi9/ubi:latest</code> in the mirror registry at <code>servera.lab.example.com:8443</code> stands in for an application image. You can add more application images to the <code>appimage</code> shell variable, if you wish, and also add <a href="https://docs.redhat.com/it/documentation/red_hat_build_of_microshift/4.17/html-single/running_applications/index#microshift-manifests-overview_applications-microshift">Kustomize manifests</a> to directories such as <code>/usr/lib/microshift/</code> on your bootc container image.</p>
+<p>A copy of image Red Hat Universal Base Image (UBI) <code>registry.redhat.io/ubi9/ubi:latest</code> in the mirror registry at <code>servera.lab.example.com:8443</code> stands in for an application image.
+You can add more application images to the <code>appimage</code> shell variable, if you wish, and also add <a href="https://docs.redhat.com/it/documentation/red_hat_build_of_microshift/4.17/html-single/running_applications/index#microshift-manifests-overview_applications-microshift" target="_blank" rel="noopener">Kustomize manifests</a> to directories such as <code>/usr/lib/microshift/</code> on your bootc container image.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -644,12 +655,13 @@ $ <strong>wget -qP yum.d https://raw.githubusercontent.com/RedHatQuickCourses/rh
 <li>
 <p>Download and inspect a blueprint for a customized installation ISO.</p>
 <div class="paragraph">
-<p>This blueprint contains only kickstart file customizations that, among other things, provide secrets for SSH and mirror registry access. Alternatively, such secrets could be provided after installation, by an onboarding process, managed by Ansible or other automation technology.</p>
+<p>This blueprint contains only kickstart file customizations that, among other things, provide secrets for SSH and mirror registry access.
+Alternatively, such secrets could be provided after installation, by an onboarding process, managed by Ansible or other automation technology.</p>
 </div>
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>Download the <a href="https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/config.toml">sample installer blueprint</a> from the course samples git repository. It basically contains a customized kickstart file.</p>
+<p>Download the <a href="https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/config.toml" target="_blank" rel="noopener">sample installer blueprint</a> from the course samples git repository. It basically contains a customized kickstart file.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/microshift/config.toml</strong></code></pre>
@@ -665,7 +677,8 @@ $ <strong>wget -qP yum.d https://raw.githubusercontent.com/RedHatQuickCourses/rh
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-The code snippets here help you locate the relevant sections in the kickstart file, but they do not list the entirety of the blueprint file. Follow along with a text editor and navigate through the kickstart file.
+The code snippets here help you locate the relevant sections in the kickstart file, but they do not list the entirety of the blueprint file.
+Follow along with a text editor and navigate through the kickstart file.
 </td>
 </tr>
 </table>
@@ -704,7 +717,7 @@ logvol / --vgname=rhel --fstype=xfs --size=10240 --name=root
 </div>
 </li>
 <li>
-<p>In a post install script,  create an initial user with a known password, unlimited sudo, and SSH key.</p>
+<p>In a post install script, create an initial user with a known password, unlimited sudo, and SSH key.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">...
@@ -724,7 +737,8 @@ EOF
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-Production systems would NOT enable password login and would leave the user without any password. We left it here as a convenience for the learner, so you can later log in at the console of your <em>edge machine</em> for troubleshooting, if you wish.
+Production systems would NOT enable password login and would leave the user without any password.
+We left it here as a convenience for the learner, so you can later log in at the console of your <em>edge machine</em> for troubleshooting, if you wish.
 </td>
 </tr>
 </table>
@@ -801,7 +815,9 @@ $ <strong>sed -i "s|REPLACE_WITH_SSH_PUB_KEY|$SSH_PUB_KEY|" config.toml</strong>
 </div>
 </li>
 <li>
-<p>Embed your pull secret in the blueprint. You have to use the <code>jq</code> command to ensure that your pull secret is formatted as a single-line JSON string. You already generated the pull secret file in a <a href="../ch1-microshift/s3-air-gapped-lab.html" class="xref page">previous lab</a>.</p>
+<p>Embed your pull secret in the blueprint.
+You have to use the <code>jq</code> command to ensure that your pull secret is formatted as a single-line JSON string.
+You already generated the pull secret file in a <a href="../ch1-microshift/s3-air-gapped-lab.html" class="xref page">previous lab</a>.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>PULL_SECRET=$( jq -c . mirror-pull-secret )</strong>
@@ -819,7 +835,8 @@ $ <strong>sed -i "s|REPLACE_WITH_PULL_SECRET|$PULL_SECRET|" config.toml</strong>
 <li>
 <p>Build a bootc container image.</p>
 <div class="paragraph">
-<p>The Containerfile contains instructions which access the mirror container registry, so we must pass credentials using the <code>--secret</code> option. Remember that secret was NOT embedded into the Containerfile, but only in the blueprint for the installation ISO.</p>
+<p>The Containerfile contains instructions which access the mirror container registry, so we must pass credentials using the <code>--secret</code> option.
+Remember that secret was NOT embedded into the Containerfile, but only in the blueprint for the installation ISO.</p>
 </div>
 <div class="paragraph">
 <p>Try to identify, as part of the build messages, the output of the <code>skopeo copy</code> commands which copy MicroShift and application container images to the bootc container image.</p>
@@ -848,12 +865,13 @@ If, by some reason, you meed to build your bootc container image again with smal
 </div>
 </li>
 <li>
-<p>Test your bootc container image as a regular container. Check for the presense of systemd units, their scripts, and container engine configuration files.</p>
+<p>Test your bootc container image as a regular container.
+Check for the presense of systemd units, their scripts, and container engine configuration files.</p>
 <div class="paragraph">
 <p>Many bootc container images are not designed to be run as regular container, and this is the case of bootc images including MicroShift, because they depend on the kernel, system services, and other configurations embeded into its bootc image that won&#8217;t be available on the container host.</p>
 </div>
 <div class="paragraph">
-<p>Testing bootc images from a regular container is useful to check if files are created and changed as expected, and sometimes for testing scripts that you would run at boot.</p>
+<p>Testing bootc images from a regular container is useful to verify if files are created and changed as expected, and sometimes for testing scripts that you would run at boot.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -894,7 +912,8 @@ b28ad90a8552d6b0009baf6c854bdcbc85650bfd28aed1ff18040697963cfd21</code></pre>
 <li>
 <p>Create an installable ISO containing your bootc container image and your custom kickstart file.</p>
 <div class="paragraph">
-<p>Be patient, it takes a while to create the ISO. You will see many error messages, related to Grub, disk devices, and <code>/dev/log</code> which you safely ignore.</p>
+<p>Be patient, it takes a while to create the ISO.
+You will see many error messages, related to Grub, disk devices, and <code>/dev/log</code> which you safely ignore.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -915,7 +934,8 @@ Results saved in
 </div>
 </li>
 <li>
-<p>Copy the installable ISO from the bootc image builder temporary output directory to a more permanent localtion, and give it an easily identifiable name. That file would be distributed to personel responsible for installing actual edge devices.</p>
+<p>Copy the installable ISO from the bootc image builder temporary output directory to a more permanent localtion, and give it an easily identifiable name.
+That file would be distributed to personel responsible for installing actual edge devices.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>cp output/bootiso/install.iso rhel9-microshift-bootc-embedded.iso</strong></code></pre>
@@ -974,12 +994,14 @@ $ <strong>LABEL=RHEL-9-5-BaseOS-x86_64</strong></code></pre>
 </div>
 </li>
 <li>
-<p>Create a KVM virtual machine from your installer image. The installation should proceed unattended until you get a login prompt.</p>
+<p>Create a KVM virtual machine from your installer image.
+The installation should proceed unattended until you get a login prompt.</p>
 <div class="paragraph">
 <p>You could use different variations of the <code>virt-install</code> command or the Cockpit web UI.</p>
 </div>
 <div class="paragraph">
-<p>The use of <code>--location</code> and <code>--extra-arg</code> in the following command enables the VM to run with a serial console, so you don&#8217;t need to leave your shell and don&#8217;t need to open a graphical console for your <em>edge machine</em>. It also makes it easier to scroll up for boot messages and copy-and-paste them if you have issues during operating system installation.</p>
+<p>The use of <code>--location</code> and <code>--extra-arg</code> in the following command enables the VM to run with a serial console, so you don&#8217;t need to leave your shell and don&#8217;t need to open a graphical console for your <em>edge machine</em>.
+It also makes it easier to scroll up for boot messages and copy-and-paste them if you have issues during operating system installation.</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1037,7 +1059,8 @@ Volume 'vda'(/home/student/.local/share/libvirt/images/edge-microshift-1.qcow2) 
 <div class="olist loweralpha">
 <ol class="loweralpha" type="a">
 <li>
-<p>MicroShift will ony start after all its container images are copied to the system container storage, which takes a few moments. You may log in BEFORE this process finishes, and see that MicroShift is still initializing, and there are no kubeconfig files on the home directory of the <code>core</code> user.</p>
+<p>MicroShift will ony start after all its container images are copied to the system container storage, which takes a few moments.
+You may log in BEFORE this process finishes, and see that MicroShift is still initializing, and there are no kubeconfig files on the home directory of the <code>core</code> user.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>ls</strong>
@@ -1067,7 +1090,8 @@ Apr 16 20:11:49 ushift microshift[1926]: kube-controller-manager I0416 20:11:49.
 </div>
 </li>
 <li>
-<p>If you wish, you can monitor the image copy process using Podman, because CRI-O shares the same system container storage with Podman. When the process is finished, you will see a full list of MicroShift container images and also application container images.</p>
+<p>If you wish, you can monitor the image copy process using Podman, because CRI-O shares the same system container storage with Podman.
+When the process is finished, you will see a full list of MicroShift container images and also application container images.</p>
 <div class="admonitionblock important">
 <table>
 <tr>
@@ -1127,7 +1151,8 @@ $ <strong>echo $KUBECONFIG</strong>
 </div>
 </li>
 <li>
-<p>Check that MicroShift is healthy and all its pods are ready and running. Beware it may take a while for MicroShift to finish starting all its pods.</p>
+<p>Ensure that MicroShift is healthy and all its pods are ready and running.
+Beware it may take a while for MicroShift to finish starting all its pods.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>oc get node</strong>
@@ -1154,7 +1179,8 @@ openshift-storage          vg-manager-5n494                           1/1     Ru
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-If you are too quick, and skip the previous steps of checking the MicroShift system service status, you may get a <code>NotReady</code> state from <code>oc get node</code>, or a "no resources found" error from <code>oc get pod</code>. If any of this happens, just wait a few seconds and try again.
+If you are too quick, and skip the previous steps of reviewing the MicroShift system service status, you may get a <code>NotReady</code> state from <code>oc get node</code>, or a "no resources found" error from <code>oc get pod</code>.
+If any of this happens, just wait a few seconds and try again.
 </td>
 </tr>
 </table>
@@ -1200,7 +1226,8 @@ If you create a pod with the default image pull policy of <code>Always</code> it
 <h2 id="_whats_next"><a class="anchor" href="#_whats_next"></a>What&#8217;s Next</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This was the final activity of this course. If you wish, you can create service accounts and kubeconfig files for developer access using the same steps from ch2-package:s3-access-lab.adoc[previous labs] already demonstrated on RHEL package mode.</p>
+<p>This was the final activity of this course.
+If you wish, you can create service accounts and kubeconfig files for developer access using the same steps from ch2-package:s3-access-lab.adoc[previous labs] already demonstrated on RHEL package mode.</p>
 </div>
 </div>
 </div>

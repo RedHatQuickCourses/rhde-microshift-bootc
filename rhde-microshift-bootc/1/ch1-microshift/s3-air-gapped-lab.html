@@ -214,7 +214,7 @@ Work In Progress.
 <p>A <em>web server machine</em> with RHEL and unrestricted <code>sudo</code>, to share files such as public keys.</p>
 </li>
 <li>
-<p>A <em>mirror registry machine</em> with RHEL and unrestricted <code>sudo</code>, to host a <a href="https://www.redhat.com/en/blog/introducing-mirror-registry-for-red-hat-openshift">mirror registry for Red Hat OpenShift</a>.</p>
+<p>A <em>mirror registry machine</em> with RHEL and unrestricted <code>sudo</code>, to host a <a href="https://www.redhat.com/en/blog/introducing-mirror-registry-for-red-hat-openshift" target="_blank" rel="noopener">mirror registry for Red Hat OpenShift</a>.</p>
 </li>
 </ul>
 </div>
@@ -222,7 +222,9 @@ Work In Progress.
 <p>These instructions were tested on RHEL 9.5 but should work with minimal or no change on newer and older RHEL 9.x releases.</p>
 </div>
 <div class="paragraph">
-<p>If you are using the course environment, you will log in to the <code>workstation</code> VM as the user <code>student</code> with password <code>student</code>. The <code>workstation</code> VM is your <em>development machine</em>. You will start SSH sessions from the <code>workstation</code> VM to the <code>servera</code> VM, which is your <em>web server machine</em> and also your <em>mirror registry machine</em>, using the same user.</p>
+<p>If you are using the course environment, you will log in to the <code>workstation</code> VM as the user <code>student</code> with password <code>student</code>.
+The <code>workstation</code> VM is your <em>development machine</em>.
+You will start SSH sessions from the <code>workstation</code> VM to the <code>servera</code> VM, which is your <em>web server machine</em> and also your <em>mirror registry machine</em>, using the same user.</p>
 </div>
 <div class="admonitionblock important">
 <table>
@@ -231,7 +233,8 @@ Work In Progress.
 <i class="fa icon-important" title="Important"></i>
 </td>
 <td class="content">
-Be sure you execute each step on the correct machine. If a step is not explicit about the machine it should be performed, it is using the same machine as its previous step.
+Be sure you execute each step on the correct machine.
+If a step is not explicit about the machine it should be performed, it is using the same machine as its previous step.
 </td>
 </tr>
 </table>
@@ -246,7 +249,8 @@ Be sure you execute each step on the correct machine. If a step is not explicit 
 <i class="fa icon-note" title="Note"></i>
 </td>
 <td class="content">
-It should be possible to perform all activities in this course using a <a href="https://developers.redhat.com/products/rhel/download">free Red Hat Developers free subscrition</a>, which gives you access to installation media, RPM packages, and container images for RHEL and Red Hat OpenShift. If you ignore the requirements for air-gaped installation of MicroShift, you could use a single RHEL VM and adapt the steps to your own environment.
+It should be possible to perform all activities in this course using a <a href="https://developers.redhat.com/products/rhel/download" target="_blank" rel="noopener">free Red Hat Developers free subscrition</a>, which gives you access to installation media, RPM packages, and container images for RHEL and Red Hat OpenShift.
+If you ignore the requirements for air-gaped installation of MicroShift, you could use a single RHEL VM and adapt the steps to your own environment.
 </td>
 </tr>
 </table>
@@ -341,7 +345,7 @@ INFO[2024-12-19 15:25:41] Quay uninstalled successfully</code></pre>
 </div>
 </li>
 <li>
-<p>If all is well, you should have three new containers, and two new system services.</p>
+<p>If all is well, you should have three new containers, and three new system services.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>sudo podman ps</strong>
@@ -358,8 +362,19 @@ $ <strong>systemctl status quay-redis</strong>
 ● quay-redis.service - Redis Podman Container for Quay
      Loaded: loaded (/etc/systemd/system/quay-redis.service; enabled; preset: disabled)
      Active: active (running) since Fri 2024-12-20 09:04:13 EST; 5h 19min ago
+...
+...
+$ <strong>systemctl status quay-pod</strong>
+● quay-pod.service - Infra Container for Quay
+     Loaded: loaded (/etc/systemd/system/quay-pod.service; enabled; preset: disabled)
+     Active: active (exited) since Mon 2025-04-28 16:35:15 EDT; 2h 9min ago
+   Main PID: 33761 (code=exited, status=0/SUCCESS)
+        CPU: 100ms
 ...</code></pre>
 </div>
+</div>
+<div class="paragraph">
+<p>It is expected that the <code>quay-pod</code> system service runs once and exits.</p>
 </div>
 </li>
 <li>
@@ -433,7 +448,7 @@ You will later copy this file to your MicroShift instances, so it is important t
 </div>
 </li>
 <li>
-<p>Download a file system copy of all images from the classroom server.</p>
+<p>Download a file system copy of all required container images from the classroom server.</p>
 <div class="admonitionblock note">
 <table>
 <tr>
@@ -446,20 +461,6 @@ When outside of the course environment, follow the instructions from <a href="ht
 </tr>
 </table>
 </div>
-<div class="olist lowerroman">
-<ol class="lowerroman" type="i">
-<li>
-<p>In the old HOL014 classroom, there was a filesystem tree that you must download using a recurive WGet, and which generates bunch of <code>index.html*</code> files that you can safely ignore.</p>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget --mirror -np http://content.example.com/rhde/oci/</strong>
-...
-Downloaded: 409 files, 2.9G in 1m 43s (28.9 MB/s)</code></pre>
-</div>
-</div>
-</li>
-<li>
-<p>In the updated HOL014 classroom, there are tar backups which you must download and extract.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q http://content.example.com/rhde/oci/microshift-containers.tar.gz</strong>
@@ -471,9 +472,6 @@ $ <strong>tar xzf app-containers.tar.gz</strong>
 $ <strong>ls app-containers</strong>
 extra-images-list.txt  flozanorht  rhel9  ubi9</code></pre>
 </div>
-</div>
-</li>
-</ol>
 </div>
 </li>
 </ol>
@@ -622,7 +620,8 @@ bootc-image-builder:9.5  rhel-bootc:9.5</code></pre>
 </div>
 </li>
 <li>
-<p>Download the bootc images upload script. It is very similar to the application images upload script.</p>
+<p>Download the bootc images upload script.
+It is very similar to the application images upload script.</p>
 <div class="listingblock">
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-none hljs">$ <strong>wget -q https://raw.githubusercontent.com/RedHatQuickCourses/rhde-build-samples/refs/heads/main/sh/upload-bootc.sh</strong></code></pre>
@@ -630,7 +629,8 @@ bootc-image-builder:9.5  rhel-bootc:9.5</code></pre>
 </div>
 </li>
 <li>
-<p>Run the application images upload script. Check carefully that its output does not indicate any errors.</p>
+<p>Run the application images upload script.
+Review carefully that its output does not indicate any errors.</p>
 </li>
 </ol>
 </div>

@@ -8,8 +8,6 @@ Objective::
 
 Populate a test environment with RPM packages and container images for air-gaped deployment of MicroShift.
 
-WARNING: Work In Progress.
-
 == Before you Begin
 
 You need a few machines to perform the hands-on activities in this course.

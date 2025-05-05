@@ -8,8 +8,6 @@ Objective::
 
 Prepare an environment for testing bootc containers and RHEL machines including MicroShift.
 
-WARNING: Pending Review
-
 == Before you Begin
 
 // Minimally changed from rhde-microshift to remove references to ostree

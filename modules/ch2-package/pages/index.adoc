@@ -3,10 +3,6 @@
 Goal::
 Install and configure MicroShift in package mode of Red Hat Enterprise Linux (RHEL).
 
-WARNING: Work In Progress.
-
-IMPORTANT: Pending review of content that is specific to RHEL for Edge.
-
 == Introduction
 
 This chapter explores the installation requirements and essential configuration settings of MicroShift, as supported by Red Hat build of MicroShift, with a focus on deployment in air-gapped environments.

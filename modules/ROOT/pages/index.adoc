@@ -5,8 +5,6 @@
 
 This course teaches how to deploy and configure MicroShift on Red Hat Enterprise Linux (RHEL), using either package mode or image mode, to support Kubernetes applications.
 
-WARNING: Work In Progress
-
 It is part of a Red Hat Device Learning path, which currently includes three courses in two different tracks:
 
 * For customers using RHEL for Edge and RPM-OSTree based edge images:

@@ -8,8 +8,6 @@ Objective::
 
 Deploy MicroShift on RHEL image mode by building bootc container images and custom installation ISOs.
 
-WARNING: Work In Progress
-
 == MicroShift on Bootc Container Images
 
 Deploying MicroShift using image mode is not different than adding any other application to a bootc container image.

@@ -1,7 +1,5 @@
 = Summary
 
-WARNING: Work In Progress
-
 In this chapter, you learned:
 
 * RHEL image mode supports preconfiguring MicroShift and Kubernetes applications at bootc conainer image build time and also supports deploying Kubernetes applications on day 2 using Kubernetes APIs.

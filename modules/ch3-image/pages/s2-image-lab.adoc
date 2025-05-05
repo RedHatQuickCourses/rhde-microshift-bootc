@@ -8,8 +8,6 @@ Objective::
 
 Provision a RHEL image mode system with MicroShift, fully disconnected, from an installation ISO.
 
-WARNING: Work In Progress
-
 == Before you Begin
 
 You need a few machines to perform the hands-on activities in this course.

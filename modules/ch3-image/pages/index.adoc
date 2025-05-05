@@ -3,8 +3,6 @@
 Goal::
 Add MicroShift to bootc container images.
 
-WARNING: Work In Progress.
-
 == Introduction
 
 This chapter explores the requirements for building and deploying bootc containers which include MicroShift, as supported by Red Hat build of MicroShift, including the caveats applicable to air-gaped environments.

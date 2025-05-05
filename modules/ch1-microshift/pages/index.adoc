@@ -3,13 +3,9 @@
 Goal::
 Understand how MicroShift is similar and different from Red Hat OpenShift.
 
-WARNING: Work In Progress.
-
-IMPORTANT: Pending review of content that is specific to RHEL for Edge.
-
 == Introduction
 
 This chapter introduces MicroShift as part of both Red Hat Device Edge and Red Hat OpenShift families of products.
 It offers an overview of which components are shared between MicroShift and OpenShift, which components are unique to MicroShift, and which components of OpenShift are not supported in MicroShift.
 
-The hands-on activities prepare a virtual labs environment with all prerequisites required to deploy MicroShift on either traditional RHEL, also known as package-based RHEL and RHEL for Edge systems.
+The hands-on activities prepare a virtual labs environment with all prerequisites required to deploy MicroShift on either traditional RHEL, also known as package-based RHEL, and on RHEL image mode.

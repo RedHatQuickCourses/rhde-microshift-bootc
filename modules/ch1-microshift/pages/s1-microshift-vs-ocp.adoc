@@ -1,1 +1,15 @@
-include::rhde-microshift:ch1-microshift:s1-microshift-vs-ocp.adoc[]
+:time_estimate: 10
+
+= Introduction to MicroShift and Red Hat Device Edge
+
+_Estimated reading time: *{time_estimate} minutes*._
+
+Objective::
+
+Understand how MicroShift is similar and different from Red Hat OpenShift
+
+include::rhde-microshift:ch1-microshift:partial$s1-microshift-vs-ocp.adoc[]
+
+== What's Next
+
+The first activities in this course prepare the virtual labs environment for air-gaped deployment of MicroShift using RHEL with either package mode or image mode. It should provide enough information for you to replicate the activities in your own environment, if you prefer, or try a simpler deployment, not air-gaped.

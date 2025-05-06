@@ -9,7 +9,7 @@ It is part of a Red Hat Device Learning path, which currently includes three cou
 
 * For customers using RHEL for Edge and RPM-OSTree based edge images:
 ** https://redhatquickcourses.github.io/rhde-build/[Building Red Hat Device Edge Images^]
-** https://redhatquickcourses.github.io/rhde-microshift/[Deploying MicroShift on Red Hat Device Edge Quick Course^]
+** https://redhatquickcourses.github.io/rhde-microshift/[Deploying MicroShift on Red Hat Device Edge^]
 
 * For customers using RHEL image mode:
 ** *Deploying MicroShift on RHEL Image Mode* (this course)

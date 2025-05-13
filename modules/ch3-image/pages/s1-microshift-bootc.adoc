@@ -18,7 +18,7 @@ But, before we drive into the specifics of including MicroShift in bootc contain
 // There's an image mode variant of figure 2 from this partials
 include::rhde-microshift:ch3-image:partial$s1-shift-left.adoc[]
 
-== RHEL Image Mode Image Building and Deployment Workflow
+== Image Mode for RHEL Image Building and Deployment Workflow
 
 In any case (shift left or not), there are benefits in building bootc container images which include pre-configured MicroShift instances.
 You decide how much you will preconfigure, from offering an empty MicroShift instance, which is ready for remote access as a cluster administrator, to offering a MicroShift instance with multiple workloads already deployed.

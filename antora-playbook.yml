@@ -1,5 +1,5 @@
 site:
-  title: Deploying MicroShift with Image Mode for RHEL
+  title: Deploying MicroShift on Image Mode for RHEL
   start_page: rhde-microshift-bootc::index.adoc
 
 content:

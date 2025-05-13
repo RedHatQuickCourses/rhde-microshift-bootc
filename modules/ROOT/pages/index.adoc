@@ -1,4 +1,4 @@
-= Deploying MicroShift on RHEL Image Mode
+= Deploying MicroShift with Image Mode for RHEL
 :navtitle: Home
 
 == Objective
@@ -12,7 +12,7 @@ It is part of a Red Hat Device Learning path, which currently includes three cou
 ** https://redhatquickcourses.github.io/rhde-microshift/[Deploying MicroShift on Red Hat Device Edge^]
 
 * For customers using RHEL image mode:
-** *Deploying MicroShift on RHEL Image Mode* (this course)
+** *Deploying MicroShift with Image Mode for RHEL* (this course)
 
 IMPORTANT: Red Hat employees must enroll using its https://training-lms.redhat.com/sso/saml/auth/rhlpint?RelayState=deeplinkoffering%3D78960132[LMS entry^] to get completion credits, and Red Hat Partners must enroll using its https://training-lms.redhat.com/sso/saml/auth/rhopen?RelayState=deeplinkoffering%3D78960256[Partner Portal entry^].
 

@@ -1,4 +1,4 @@
-= Deploy MicroShift on RHEL Image Mode
+= Deploy MicroShift Using Bootc
 
 Goal::
 Add MicroShift to bootc container images.

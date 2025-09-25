@@ -1,5 +1,5 @@
 name: rhde-microshift-bootc
-title: Deploying MicroShift on RHEL Image Mode
+title: Deploying MicroShift on Image Mode for RHEL
 version: 1
 asciidoc:
   attributes:

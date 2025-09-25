@@ -6,7 +6,7 @@ _Estimated reading time: *{time_estimate} minutes*._
 
 Objective::
 
-Deploy MicroShift on RHEL image mode by building bootc container images and custom installation ISOs.
+Deploy MicroShift on image mode for RHEL by building bootc container images and custom installation ISOs.
 
 == MicroShift on Bootc Container Images
 
@@ -23,7 +23,7 @@ include::rhde-microshift:ch3-image:partial$s1-shift-left.adoc[]
 In any case (shift left or not), there are benefits in building bootc container images which include pre-configured MicroShift instances.
 You decide how much you will preconfigure, from offering an empty MicroShift instance, which is ready for remote access as a cluster administrator, to offering a MicroShift instance with multiple workloads already deployed.
 
-As a reminder, the following figure depicts the overall workflow for building bootc container images and deploying them on edge devices, using RHEL image mode.
+As a reminder, the following figure depicts the overall workflow for building bootc container images and deploying them on edge devices, using image mode for RHEL.
 
 image::s1-edge-fig-3.svg[title="Workflow for building and deploying bootc container images on edge devices"]
 
@@ -62,7 +62,7 @@ Similarly, you can copy registry configuration files for the local container eng
 
 == Using Physically Bound Containers
 
-What RHEL image mode documentation call *physically bound containers* are just container image layers that are stored, as regular files, in a bootc container image.
+What the image mode for RHEL documentation call *physically bound containers* are just container image layers that are stored, as regular files, in a bootc container image.
 
 If you run your application containers directly from Podman, or using Quadlets, you can specify the read-only directory storing those layers as an alternate container image storage for your containers.
 Unfortunately Kubernetes pod cannot specify their own container storage.

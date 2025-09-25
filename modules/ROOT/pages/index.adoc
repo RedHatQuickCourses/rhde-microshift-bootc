@@ -31,7 +31,7 @@ Red Hat and Partner roles that support Red Hat Device Edge on customers, such as
 
 == Prerequisites
 
-* Attend the RHEL labs https://www.redhat.com/en/introduction-to-image-mode-for-red-hat-enterprise-linux-interactive-lab[Introduction to image mode for Red Hat Enterprise Linux^] and https://www.redhat.com/en/day-2-operations-with-image-mode-for-red-hat-enterprise-linux[Day 2 operations with image mode for Red Hat Enterprise Linux^], or have equivalent experience with RHEL image mode.
+* Attend the RHEL labs https://www.redhat.com/en/introduction-to-image-mode-for-red-hat-enterprise-linux-interactive-lab[Introduction to image mode for Red Hat Enterprise Linux^] and https://www.redhat.com/en/day-2-operations-with-image-mode-for-red-hat-enterprise-linux[Day 2 operations with image mode for Red Hat Enterprise Linux^], or have equivalent experience with image mode for RHEL.
 * Familiarity with RHEL system administration, to the level of https://www.redhat.com/en/services/certification/rhcsa[Red Hat Certified System Administrator (RHCSA)^] or equivalent knowledge.
 * Familiarity with OpenShift administration, to the level of https://www.redhat.com/en/services/certification/rhcs-paas[Red Hat Certified OpenShift Administrator^] or equivalent knowledge.
 * Familiarity with Ansible playbooks and the Ansible Automation Platform is useful but not required.
@@ -76,7 +76,7 @@ We also recommend that you use the product documentation for https://docs.redhat
 
 The Red Hat Build of MicroShift is supported as part of Red Hat Device Edge, check its https://docs.redhat.com/en/documentation/red_hat_device_edge/4/html/overview/index[overview document^] for pointers to MicroShift, RHEL for Edge, and other components of Red Hat Device Edge.
 
-For documentation about RHEL image mode, see the https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html-single/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/index[RHEL product documentation^].
+For documentation about image mode for RHEL, see the https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html-single/using_image_mode_for_rhel_to_build_deploy_and_manage_operating_systems/index[RHEL product documentation^].
 
 It is not expected that you need to use the https://microshift.io/[open source upstream^] of MicroShift and its community documentation for day to day use of the Red Hat Build of MicroShift.
 

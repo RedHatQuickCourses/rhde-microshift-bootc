@@ -6,7 +6,7 @@ _Estimated reading time: *{time_estimate} minutes*._
 
 Objective::
 
-Provision a RHEL image mode system with MicroShift, fully disconnected, from an installation ISO.
+Provision an image mode system with MicroShift, fully disconnected, from an installation ISO.
 
 == Before you Begin
 
@@ -631,7 +631,7 @@ IMPORTANT: If you create a pod with the default image pull policy of `Always` it
 
 .. You can now terminate the SSH session to your _edge machine_, if you wish.
 
-You succeed in provisioning an edge device, from an installable ISO, in an air-gapped environment: you only need the installation media to fully provision a ready-to-use RHEL image mode system running a MicroShift instance.
+You succeed in provisioning an edge device, from an installable ISO, in an air-gapped environment: you only need the installation media to fully provision a ready-to-use image mode system running a MicroShift instance.
 
 
 == What's Next

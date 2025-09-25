@@ -40,7 +40,7 @@ If you ignore the requirements for air-gaped installation of MicroShift, you cou
 
 include::rhde-microshift:ch1-microshift:partial$s3-air-gapped-lab-registry.adoc[]
 
-5. Populate the mirror registry with container images for RHEL image mode.
+5. Populate the mirror registry with container images for image mode.
 
 .. Download the bootc images from RHEL.
 +

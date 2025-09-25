@@ -2,7 +2,7 @@
 
 In this chapter, you learned:
 
-* RHEL image mode supports preconfiguring MicroShift and Kubernetes applications at bootc conainer image build time and also supports deploying Kubernetes applications on day 2 using Kubernetes APIs.
+* Image mode for RHEL supports preconfiguring MicroShift and Kubernetes applications at bootc conainer image build time and also supports deploying Kubernetes applications on day 2 using Kubernetes APIs.
 
 * You must configure your Containerfile to access your private or mirror registries by editing configuration files during the container image build process.
 

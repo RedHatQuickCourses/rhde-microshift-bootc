@@ -1,4 +1,4 @@
-# Deploying MicroShift on RHEL Image Mode Quick Course
+# Deploying MicroShift on Image Mode for RHEL Quick Course
 
 This course teaches how to deploy and configure MicroShift on Red Hat Enterprise Linux (RHEL), using package mode or image mode,to support Kubernetes applications.
 
